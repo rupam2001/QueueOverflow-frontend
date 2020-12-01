@@ -1,14 +1,117 @@
-import { useState } from 'react'
+import { UV_FS_O_FILEMAP } from 'constants'
+import { useEffect, useRef, useState } from 'react'
+import { isSetAccessor } from 'typescript'
+import DraftPanle, { saveDraft, updateDraft } from '../components/draftPanel'
 import Editor from '../components/editor'
 import MarkDown from '../components/markdown'
 import NavBar from '../components/navbar'
 import { Button } from '../components/stateless/stateless'
+import moment from 'moment'
 
+const notify = (msg: string) => {
+    alert(msg)
+}
+import jsPDF from 'jspdf'
 
 export default function Create() {
 
-    const [markdownText, setMarkdownText] = useState('')
-    const [title, setTitle] = useState('')
+    const doc = new jsPDF();
+
+    const [markdownText, setMarkdownText] = useState<string>('')
+    const [title, setTitle] = useState<string>('')
+
+    const [currentDraft, setCurrentDraft] = useState(null)
+
+    const [reloadDraftPanel, setReloadDraftPanel] = useState<any>(null)
+
+    const saveAsDraftLocaly = () => {
+        //if the draft is already been loaded and editing
+        if (currentDraft) {
+            let updated = { name: currentDraft.name, title: title, body: markdownText, time: new Date().toString() }
+            updateDraft(updated)
+            // notify("Saved!")
+            setReloadDraftPanel(Math.random())
+            setCurrentDraft(updated)
+            return
+        }
+        //it is a new draft  , show the modal
+        draftModalRef.current.style.display = "flex"
+    }
+
+
+
+    useEffect(() => {
+        // loadFromLocalDraft();
+        if (!currentDraft) return
+        const { title, body } = currentDraft
+        setTitle(title)
+        setMarkdownText(body)
+    }, [currentDraft])
+
+    const draftModalRef = useRef(null)
+    const draftInputRef = useRef(null)
+    const handleDraftModalButton = () => {
+        if (!draftInputRef.current.value) return
+        const { sucess, msg } = saveDraft({ name: draftInputRef.current.value, title: title, body: markdownText, time: new Date().toString() })
+        notify(msg)
+        if (!sucess) return
+        draftModalRef.current.style.display = 'none'
+        setReloadDraftPanel(Math.random())
+    }
+
+
+    const ModalDraft = ({ title }) => (
+        <div className="ed-modal" ref={draftModalRef}>
+            <div className="ed-main">
+                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <i className="fa fa-times" aria-hidden="true" onClick={() => { draftModalRef.current.style.display = 'none' }}></i>
+                </div>
+                <p>{title}</p>
+                <input placeholder="" ref={draftInputRef} autoFocus={true} />
+                <div className="ed-btns">
+                    <div>
+                        <Button text="Add" onclickCallBack={() => { handleDraftModalButton() }} />
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+
+    const DraftInfo = () => (
+        <div className="cr-draft-info-box">
+            <span><strong>Currently editing: </strong></span>
+            {currentDraft.name}
+            <span className="cr-draft-info-time"><b>last edited:</b> <i>{moment(currentDraft.time).fromNow()}</i></span>
+        </div>
+    )
+
+    useEffect(() => {
+
+        window.addEventListener("keydown", (e) => {
+            if (e.ctrlKey && (e.keyCode == 83)) {
+                e.preventDefault();
+                // saveAsDraftLocaly()
+                return false;
+            }
+        })
+    }, [])
+
+    const mdDivRef = useRef(null)
+
+    const handleExportPdf = (id) => {
+        let html = document.getElementById(id).innerHTML
+        console.log(html)
+        doc.html(html.toString())
+        doc.save('a4.pdf')
+    }
+
+    const handleExportHtml = (id) => {
+        let html = document.getElementById(id).innerHTML
+        download(html, (currentDraft && currentDraft.name ? currentDraft.name : new Date().getTime()) + '.html', 'text/plain')
+    }
+
+
+
 
     return (
         <div>
@@ -16,33 +119,54 @@ export default function Create() {
             <div style={{ marginTop: '1rem' }} className="cr-main">
                 <div className="cr-left">
                     <div className="cr-left-editor">
-
+                        {currentDraft && DraftInfo()}
                         <div className="cr-title">
-                            <input placeholder="Title" onChange={(e) => { setTitle("## " + e.target.value) }} />
+                            <input placeholder="Title" onChange={(e) => { setTitle("## " + e.target.value); }} defaultValue={title.substring(2)} />
                         </div>
                         <Editor
                             onChangeCallBack={(text) => { setMarkdownText(text) }}
                             onChangeImageCallBack={() => { }}
-                            containerStyle={{ border: '1px solid gray', height: '25rem' }}
+                            containerStyle={{ border: '1px solid gray', height: '30rem' }}
                             textAreaPlaceholder={"Type your question body here"}
+                            text={markdownText}
                         />
                         <div className="cr-ed-btns">
                             <Button onclickCallBack={() => { }} text="Post question" />
-                            <Button onclickCallBack={() => { }} text="Save as draft in this device" buttonStyle={{ backgroundColor: 'transparent', color: 'red', marginLeft: '1rem' }} />
+                            <Button onclickCallBack={() => { saveAsDraftLocaly() }} text="Save as draft in this device" buttonStyle={{ backgroundColor: 'transparent', color: 'red', marginLeft: '1rem', flex: 1 }} />
+                            <Button onclickCallBack={() => { handleExportHtml('mdbox') }} text="Export as html" buttonStyle={{ backgroundColor: 'transparent', color: 'green', fontSize: 'small', float: 'right' }} />
                         </div>
                     </div>
                 </div>
                 <div className="cr-right">
-                    <div>
-                        <p>Preview (scaled down)</p>
-                        <div className="cr-preview">
-                            <MarkDown markdownText={title + "\n" + markdownText} disablePopups={true} />
-                        </div>
+                    <div className="cr-preview-2" ref={mdDivRef} id="mdbox">
+                        <MarkDown markdownText={title + "\n" + markdownText} disablePopups={true} />
                     </div>
+                    <DraftPanle visible={true} onDraftSelectCallback={(draft) => { setCurrentDraft(draft) }} reload={reloadDraftPanel} />
                 </div>
             </div>
+            {ModalDraft({ title: "Name of the draft" })}
         </div>
     )
 }
 
 
+
+
+
+function download(data, filename, type) {
+    var file = new Blob([data], { type: type });
+    if (window.navigator.msSaveOrOpenBlob) // IE10+
+        window.navigator.msSaveOrOpenBlob(file, filename);
+    else { // Others
+        var a = document.createElement("a"),
+            url = URL.createObjectURL(file);
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(function () {
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }, 0);
+    }
+}

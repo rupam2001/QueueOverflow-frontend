@@ -22,24 +22,27 @@ interface propType {
 
 export default function MarkDown(props: propType) {
 
-    const [fullSize, setFullSize] = useState(false);
+    const [fullSize, setFullSize] = useState('');
     const MyImage = _props => {
         const handleClick = () => {
             if (props.disablePopups) return;
-            setFullSize(!fullSize);
+            setFullSize(fullSize.length ? '' : _props.src);
         };
 
         return (
-            <div className={fullSize ? "md-large-box" : "md-img-box"}>
+            <div className={fullSize === _props.src ? "md-large-box" : "md-img-box"} style={{
+                display: 'flex',
+                justifyContent: 'center'
+            }}>
 
                 <div>
 
-                    {fullSize && <p>{_props.alt}</p>}
+                    {fullSize === _props.src && <p>{_props.alt}</p>}
                     {
                         _props.src.includes("youtube") ?
                             (<iframe width="560" height="315" src={_props.src} className="md-img-box" allowFullScreen></iframe>) :
                             (<img
-                                className={fullSize ? "md-large md-img" : "md-small md-img"}
+                                className={fullSize == _props.src ? "md-large md-img" : "md-small md-img"}
                                 alt={_props.alt}
                                 src={_props.src}
                                 onClick={handleClick}
@@ -60,6 +63,20 @@ export default function MarkDown(props: propType) {
                     <SyntaxHighlighter language={language} children={value} />
                 </div>
             )
+        },
+        blockquote: (p) => {
+
+            return (<blockquote {...p}
+                style={{
+                    color: 'rgb(110, 110, 110)',
+                    margin: 0,
+                    padding: '0.01rem',
+                    paddingLeft: '2em',
+                    backgroundColor: "rgba(243, 243, 243, 0.521)",
+                    borderLeft: "0.5em #eee solid",
+                    minHeight: "2rem"
+                }}
+            ></blockquote>)
         }
     };
     return (

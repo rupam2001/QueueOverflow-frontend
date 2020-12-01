@@ -1,23 +1,21 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from '../styles/editor.module.scss'
 import CSS from 'csstype'
 import { Button } from './stateless/stateless';
 
-
-// import MdEditor from 'react-markdown-editor-lite'
-// import style manually
 interface propsType {
-    onChangeCallBack: Function,
-    onChangeImageCallBack: Function,
+    onChangeCallBack?: Function,
+    onChangeImageCallBack?: Function,
     containerStyle?: CSS.Properties,
     textAreaPlaceholder?: string
+    text?: string
 }
 
 
 
 const Editor = (props: propsType) => {
 
-    const [text, setText] = useState('')
+    const [text, setText] = useState<string>("")
     const txtarea = useRef(null)
     const linkModalRef = useRef(null)
     const ImgModalRef = useRef(null)
@@ -32,6 +30,10 @@ const Editor = (props: propsType) => {
     const inputTitleVideoRef = useRef(null)
     const inputLinkVideoRef = useRef(null)
 
+    useEffect(() => {
+        setText(props.text)
+    }, [props.text])
+
     const applyTool = (pre: string, post: string, goend?: boolean) => {
         var start = txtarea.current.selectionStart;
         var end = txtarea.current.selectionEnd;
@@ -39,7 +41,6 @@ const Editor = (props: propsType) => {
         var finText = txtarea.current.value.substring(0, start) + pre + sel + post + txtarea.current.value.substring(end);
         txtarea.current.value = finText;
         txtarea.current.focus();
-
 
         if (end == start && !goend) {
             txtarea.current.selectionEnd = end + pre.length;
@@ -95,7 +96,6 @@ const Editor = (props: propsType) => {
     }
 
     const handleModalImgAdd = () => {
-        console.log(inputLinkImgRef.current, "fuck")
         if (inputLinkImgRef.current.value.length < 10 || inputTitleImgRef.current.value.length < 1) return;
         applyTool(`![${inputTitleImgRef.current.value}]`, `(${inputLinkImgRef.current.value})`, true)
         ImgModalRef.current.style.display = 'none'
@@ -104,8 +104,6 @@ const Editor = (props: propsType) => {
     }
     const handleModalVideoAdd = () => {
         if (inputLinkVideoRef.current.value.length < 10 || inputTitleVideoRef.current.value.length < 1) return;
-
-        console.log(inputTitleVideoRef.current.value)
 
         let url: string = inputLinkVideoRef.current.value
 
@@ -195,7 +193,7 @@ const Editor = (props: propsType) => {
                 <i className="fa fa-youtube-square" aria-hidden="true" id="video" onClick={onSelectTool}></i>
             </div>
             <div className={styles.textAreaWrapper}>
-                <textarea className={styles.textArea} placeholder={props.textAreaPlaceholder} value={text} ref={txtarea} onChange={handleOnChangeText} />
+                <textarea spellCheck={"false"} className={styles.textArea} placeholder={props.textAreaPlaceholder} value={text} ref={txtarea} onChange={handleOnChangeText} />
             </div>
             {Modal({ title: "Add a link" })}
             {ModalImg({ title: "Add your image here", onclickCallBack: handleModalImgAdd })}

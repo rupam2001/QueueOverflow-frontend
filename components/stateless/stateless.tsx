@@ -3,7 +3,7 @@ import css from "csstype"
 interface propType {
     text: string,
     onclickCallBack: Function,
-    buttonStyle?: css.Properties
+    buttonStyle?: css.Properties,
 
 }
 
