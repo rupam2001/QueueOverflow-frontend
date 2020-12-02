@@ -52,11 +52,13 @@ export default function Create() {
     const draftInputRef = useRef(null)
     const handleDraftModalButton = () => {
         if (!draftInputRef.current.value) return
-        const { sucess, msg } = saveDraft({ name: draftInputRef.current.value, title: title, body: markdownText, time: new Date().toString() })
+        const draft = { name: draftInputRef.current.value, title: title, body: markdownText, time: new Date().toString() }
+        const { sucess, msg } = saveDraft(draft)
         notify(msg)
         if (!sucess) return
         draftModalRef.current.style.display = 'none'
         setReloadDraftPanel(Math.random())
+        setCurrentDraft(draft)
     }
 
 
@@ -111,6 +113,12 @@ export default function Create() {
     }
 
 
+    //for aut scrolling to end when a new element is added
+    useEffect(() => {
+        var elem = document.getElementById('mdbox');
+        elem.scrollTop = elem.scrollHeight;
+    }, [markdownText])
+
 
 
     return (
@@ -129,16 +137,17 @@ export default function Create() {
                             containerStyle={{ border: '1px solid gray', height: '30rem' }}
                             textAreaPlaceholder={"Type your question body here"}
                             text={markdownText}
+                            textAreaStyle={{ fontSize: 'medium' }}
                         />
                         <div className="cr-ed-btns">
                             <Button onclickCallBack={() => { }} text="Post question" />
-                            <Button onclickCallBack={() => { saveAsDraftLocaly() }} text="Save as draft in this device" buttonStyle={{ backgroundColor: 'transparent', color: 'red', marginLeft: '1rem', flex: 1 }} />
+                            <Button onclickCallBack={() => { saveAsDraftLocaly() }} text="Save as draft in this device" buttonStyle={{ backgroundColor: 'transparent', color: 'red', marginLeft: '1rem', flex: 1, fontSize: 'small' }} />
                             <Button onclickCallBack={() => { handleExportHtml('mdbox') }} text="Export as html" buttonStyle={{ backgroundColor: 'transparent', color: 'green', fontSize: 'small', float: 'right' }} />
                         </div>
                     </div>
                 </div>
                 <div className="cr-right">
-                    <div className="cr-preview-2" ref={mdDivRef} id="mdbox">
+                    <div className="cr-preview-2" ref={mdDivRef} id="mdbox" onClick={() => { handleFlash("mdbox") }}>
                         <MarkDown markdownText={title + "\n" + markdownText} disablePopups={true} />
                     </div>
                     <DraftPanle visible={true} onDraftSelectCallback={(draft) => { setCurrentDraft(draft) }} reload={reloadDraftPanel} />
@@ -147,6 +156,15 @@ export default function Create() {
             {ModalDraft({ title: "Name of the draft" })}
         </div>
     )
+}
+
+const handleFlash = (id) => {
+    let elem = document.getElementById(id)
+    if (elem.classList.contains("flash")) {
+        elem.classList.remove('flash')
+    } else {
+        elem.classList.add('flash')
+    }
 }
 
 

@@ -15,8 +15,7 @@ export default function Home() {
 
     const [text, setText] = useState('');
     useEffect(() => {
-        let drf = getDrafts({ name: 'some' })[0];
-        setText(drf.title + drf.body)
+
     }, [])
 
     return (
@@ -27,7 +26,7 @@ export default function Home() {
                     <Button text="Ask a question" onclickCallBack={handleAskQuestion} />
                 </div>
                 <div className="cr-preview-2" style={{ height: 'fit-content', padding: '0.5rem' }}>
-                    <MarkDown markdownText={text} key="ene" />
+
                 </div>
             </div>
         </Layout>

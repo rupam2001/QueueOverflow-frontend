@@ -51,3 +51,14 @@
         /* width: 10rem; */
     }
 }
+.compose{
+    color: #216418;
+    position: absolute;
+    margin-top: 40vh;
+    transition: all 0.6s;
+    background-color: whitesmoke;
+    padding: 0.5rem;
+}
+.compose:hover{
+    /* transform: scale3d(0.5, 1, 1.7); */
+}

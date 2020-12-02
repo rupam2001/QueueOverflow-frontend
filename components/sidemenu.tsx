@@ -16,6 +16,11 @@ export default function SideMenu() {
                     </Link>
                     <Link href="/tags">
                         <div className={styels.route + (router.pathname == '/tags' ? " " + styels.active : "")}>
+                            <span>Articles</span>
+                        </div>
+                    </Link>
+                    <Link href="/tags">
+                        <div className={styels.route + (router.pathname == '/tags' ? " " + styels.active : "")}>
                             <span>Tags</span>
                         </div>
                     </Link>
@@ -24,8 +29,14 @@ export default function SideMenu() {
                             <span>Peoples</span>
                         </div>
                     </Link>
+                    <Link href="/create">
+                        <div className={styels.route + (router.pathname == '/create' ? " " + styels.active : "") + " " + styels.compose}>
+                            <span>Compose <big>+</big></span>
+                        </div>
+                    </Link>
                 </div>
             </div>
+
         </div>
     )
 }

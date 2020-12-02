@@ -7,8 +7,9 @@ interface propsType {
     onChangeCallBack?: Function,
     onChangeImageCallBack?: Function,
     containerStyle?: CSS.Properties,
-    textAreaPlaceholder?: string
-    text?: string
+    textAreaPlaceholder?: string,
+    text?: string,
+    textAreaStyle?: CSS.Properties
 }
 
 
@@ -193,7 +194,7 @@ const Editor = (props: propsType) => {
                 <i className="fa fa-youtube-square" aria-hidden="true" id="video" onClick={onSelectTool}></i>
             </div>
             <div className={styles.textAreaWrapper}>
-                <textarea spellCheck={"false"} className={styles.textArea} placeholder={props.textAreaPlaceholder} value={text} ref={txtarea} onChange={handleOnChangeText} />
+                <textarea spellCheck={"false"} style={props.textAreaStyle} className={styles.textArea} placeholder={props.textAreaPlaceholder} value={text} ref={txtarea} onChange={handleOnChangeText} />
             </div>
             {Modal({ title: "Add a link" })}
             {ModalImg({ title: "Add your image here", onclickCallBack: handleModalImgAdd })}

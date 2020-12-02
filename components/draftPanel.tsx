@@ -44,29 +44,43 @@ const DraftPanle = (props: propType) => {
         loadFromLocalDraft()
     }
 
-    const ModalDelete = ({ title }) => (
-        <div className="ed-modal" ref={deletModalRef} style={{}}>
-            <div className="ed-main">
-                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <i className="fa fa-times" aria-hidden="true" onClick={() => { deletModalRef.current.style.display = 'none' }}></i>
-                </div>
-                <p>{title}</p>
-                <div className="ed-btns">
-                    <div>
-                        <Button text="Confirm" onclickCallBack={() => { handleDelete() }} />
-                    </div>
-                </div>
-            </div>
-        </div>
-    )
+    // const ModalDelete = ({ title }) => (
+    //     <div className="ed-modal" ref={deletModalRef} style={{}}>
+    //         <div className="ed-main">
+    //             <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+    //                 <i className="fa fa-times" aria-hidden="true" onClick={() => { deletModalRef.current.style.display = 'none' }}></i>
+    //             </div>
+    //             <p>{title}</p>
+    //             <div className="ed-btns">
+    //                 <div>
+    //                     <Button text="Confirm" onclickCallBack={() => { handleDelete() }} />
+    //                 </div>
+    //             </div>
+    //         </div>
+    //     </div>
+    // )
+
+    const panelBodyRef = useRef(null)
+
+    const handleMinimise = () => {
+        let dp = document.getElementById("dpanel")
+        if (panelBodyRef.current.style.display == 'block') {
+            panelBodyRef.current.style.display = 'none'
+            dp.style.setProperty("height", "fit-content");
+        } else {
+            panelBodyRef.current.style.display = 'block'
+            dp.style.setProperty("height", "40vh");
+        }
+    }
 
     return (
-        <div className="cr-draft-panel" ref={panelRef}>
+        <div className="cr-draft-panel" ref={panelRef} id="dpanel">
             <div className="cr-draft-panel-head">
                 <span>Drafts</span>
+                <i className="fa fa-minus" aria-hidden="true" onClick={() => { handleMinimise() }}></i>
                 <i className="fa fa-times" aria-hidden="true" onClick={() => { panelVisiblity(false) }}></i>
             </div>
-            <div className="cr-draft-panel-body">
+            <div className="cr-draft-panel-body" ref={panelBodyRef}>
                 {drafts.map((each) => (
                     <div className="cr-draft-each cr-draft-slider-delete" onClick={(e) => { if (e.target.id === 'del') return; props.onDraftSelectCallback(each) }}>
                         <p >
@@ -79,11 +93,13 @@ const DraftPanle = (props: propType) => {
                     drafts.length == 0 && <p>No drafts found</p>
                 }
             </div>
-            {ModalDelete({ title: "Are you sure?" })}
+            {/* {ModalDelete({ title: "Are you sure?" })} */}
         </div>
     )
 }
 export default DraftPanle;
+
+//storage functions
 
 const getDrafts = (args: { name?: string, callback?: Function }): Array<draftType> => {
     let drafts: Array<draftType> = JSON.parse(localStorage.getItem("drafts"))
