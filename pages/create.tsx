@@ -1,5 +1,5 @@
 import { UV_FS_O_FILEMAP } from 'constants'
-import { useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { isSetAccessor } from 'typescript'
 import DraftPanle, { saveDraft, updateDraft } from '../components/draftPanel'
 import Editor from '../components/editor'
@@ -12,8 +12,12 @@ const notify = (msg: string) => {
     alert(msg)
 }
 import jsPDF from 'jspdf'
+import { AuthContext } from '../context/authcontext'
+import { signinAlertRef } from '../components/refs'
+import Tags from '../components/tags'
 
 export default function Create() {
+    const authContext = useContext(AuthContext)
 
     const doc = new jsPDF();
 
@@ -119,7 +123,37 @@ export default function Create() {
         elem.scrollTop = elem.scrollHeight;
     }, [markdownText])
 
+    const handlePostQuestion = () => {
+        if (!authContext.isLogin) {
+            signinAlertRef.current.style.display = 'flex'
+            return
+        }
+        if (title.length < 5) {
+            alert("Title too short")
+            return
+        }
+        if (markdownText.length < 20) {
+            alert("Body too short")
+            return
+        }
 
+        showTagsModalRef.current.style.display = 'flex'
+
+    }
+
+    const [tags, setTags] = useState([])
+    const showTagsModalRef = useRef(null)
+
+    const ModalTags = () => (
+        <div ref={showTagsModalRef} className="ed-modal">
+            <div className="ed-main hide-scrollbar" style={{ maxWidth: '40vw', height: '40vh', overflow: 'auto' }}>
+                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <i className="fa fa-times" aria-hidden="true" onClick={() => { showTagsModalRef.current.style.display = 'none' }}></i>
+                </div>
+                <Tags onClickTagsCallBack={setTags} />
+            </div>
+        </div>
+    )
 
     return (
         <div>
@@ -140,7 +174,7 @@ export default function Create() {
                             textAreaStyle={{ fontSize: 'medium' }}
                         />
                         <div className="cr-ed-btns">
-                            <Button onclickCallBack={() => { }} text="Post question" />
+                            <Button onclickCallBack={() => { handlePostQuestion() }} text="Post question" />
                             <Button onclickCallBack={() => { saveAsDraftLocaly() }} text="Save as draft in this device" buttonStyle={{ backgroundColor: 'transparent', color: 'red', marginLeft: '1rem', flex: 1, fontSize: 'small' }} />
                             <Button onclickCallBack={() => { handleExportHtml('mdbox') }} text="Export as html" buttonStyle={{ backgroundColor: 'transparent', color: 'green', fontSize: 'small', float: 'right' }} />
                         </div>
@@ -154,6 +188,7 @@ export default function Create() {
                 </div>
             </div>
             {ModalDraft({ title: "Name of the draft" })}
+            {ModalTags()}
         </div>
     )
 }

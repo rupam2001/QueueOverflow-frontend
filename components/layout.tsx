@@ -5,6 +5,7 @@ import RightMenu from './rightmenu';
 import SideMenu from './sidemenu';
 import Link from 'next/link'
 import NavBar from './navbar';
+import SigninAlert from './signinAlert'
 
 export default function Layout(props) {
 
@@ -23,6 +24,7 @@ export default function Layout(props) {
                     <RightMenu />
                 </div>
             </div>
+
             <Footer />
         </div>
     )

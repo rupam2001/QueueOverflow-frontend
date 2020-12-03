@@ -1,7 +1,7 @@
-const ENDPOINT = 'http://someaddress'
+const ENDPOINT = 'http://192.168.43.79:3300'
 
-const AuthRoute = '/auth/..'
-const AutoAuthRoute = '/auth/auto/..'
+const AuthRoute = '/auth/google'
+const AutoAuthRoute = '/auth/autoauth'
 const LogoutRoute = '/auth/logout'
 const AutoAuthProgressImg = 'https://tools.ndm.ox.ac.uk/haiku_iframes/include/images/loading.gif'
 

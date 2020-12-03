@@ -6,10 +6,18 @@ import { Button } from './stateless/stateless'
 import GoogleLogin from 'react-google-login';
 
 export default function Profile() {
-
+    const authContext = useContext(AuthContext)
     const ref = useRef(null)
     const googleSigninButtonRef = useRef(null)
     const [authInProgress, setAuthInProgress] = useState(true)
+
+    const [isLogin, setIsLogin] = useState(authContext.isLogin)
+    const [profile_pic, setProfile_pic] = useState('')
+
+    useEffect(() => {
+        setIsLogin(authContext.isLogin)
+        setProfile_pic(authContext.AuthRespObj.profile_pic)
+    }, [authContext])
 
     const handleOpen = (e) => {
         //to open the main menu body
@@ -37,12 +45,13 @@ export default function Profile() {
         }
     }, [])
 
-    const authContext = useContext(AuthContext)
+
 
     useEffect(() => {
         (
             async () => {
-                const { success } = await authContext.AutoAuthFromTokenAsync()
+                if (!authContext.isLogin)
+                    await authContext.AutoAuthFromTokenAsync()
                 setAuthInProgress(false)
             }
         )()
@@ -54,18 +63,29 @@ export default function Profile() {
     }
 
     const responseSuccessGoogle = (response) => {
-
+        authContext.AuthenticateAsync(response.tokenId)
     }
     const responseErrorGoogle = (response) => {
-
+        alert("Error")
     }
 
+    const handleLogout = () => {
+        setAuthInProgress(true);
+        authContext.LogoutAsync()
+            .then(success => {
+                if (success) {
+                    setAuthInProgress(false)
+                } else {
+                    alert("failed to logout :(")
+                }
+            })
+    }
 
     return (
         <div className="dropdown" >
             {
-                authContext.isLogin ? (
-                    <img className={style.profile} src={authContext.AuthRespObj.profile_pic} onClick={handleOpen} />
+                isLogin ? (
+                    <img className={style.profile} src={profile_pic} onClick={handleOpen} />
                 ) : (
                         <>
                             { !authInProgress && <Button onclickCallBack={handleOpen} text="Signin" buttonStyle={{ backgroundColor: 'transparent', color: "green", fontWeight: 'bolder' }} />}
@@ -75,24 +95,26 @@ export default function Profile() {
             }
             <div className="dropdown-content" style={{ right: 0 }} ref={ref} id="myDropdown">
                 {
-                    authContext.isLogin ? (
-                        <div className="dd-item" id="myDropdown">
-                            <i className="fa fa-sign-out" aria-hidden="true"></i>
-                            <span>Logout</span>
-                        </div>
+                    isLogin ? (
+                        <>
+                            <div className="dd-item" id="myDropdown" onClick={handleLogout}>
+                                <i className="fa fa-sign-out" aria-hidden="true"></i>
+                                <span>Logout</span>
+                            </div>
+                        </>
                     ) : (
                             <div id="myDropdown">
                                 <GoogleLogin
-                                    clientId="432827620544-30kf3nvnnqtadjuqd9as4l92j0qam71f.apps.googleusercontent.com"
+                                    clientId="432827620544-earre7sba34jptupkvjuinarabmts09e.apps.googleusercontent.com"
                                     buttonText="Login"
                                     onSuccess={responseSuccessGoogle}
                                     onFailure={responseErrorGoogle}
                                     cookiePolicy={'single_host_origin'}
-                                    redirectUri="https://...../"
+                                    redirectUri="https://localhost:3000/"
                                     // redirectUri="http://localhost:3000/"
 
                                     render={renderProps => (
-                                        <div onClick={renderProps.onClick} ref={googleSigninButtonRef} className="dd-item" >Google</div>
+                                        <div onClick={renderProps.onClick} ref={googleSigninButtonRef} className="dd-item" > With Google</div>
                                     )}
                                 />
                             </div>

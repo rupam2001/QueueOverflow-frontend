@@ -428,4 +428,48 @@ text{
   }
 }
 
+.tag-main{
+  max-width: 100%;
+  background-color: #fff;
+  display: flex;
+  flex-wrap: wrap; 
+  justify-content: center;
+  position: relative;
+}
+.tag-each{
+  padding: 0.5rem;
+  background-color: #71bddb;
+  margin: 0.5rem;
+  color: #095f81;
+  border-radius: 1rem;
+  cursor: pointer;
+  
+}
+.tag-selected{
+  background-color: whitesmoke;
+}
 
+.hide-scrollbar::-webkit-scrollbar{
+  display: none;
+}
+
+.tag-header{
+  display: flex;
+  align-items: center;
+  position: static;
+  z-index: 999999;
+
+  /* float: right; */
+}
+.tag-header h3{
+  flex: 1;
+}
+.tag-header h3 span{
+  font-weight: 100;
+  
+}
+
+.tag-header input{
+  height: 1.5rem;
+  /* top: 0; */
+}
