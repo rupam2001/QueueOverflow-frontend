@@ -1,10 +1,10 @@
 :root{
-  --first:rgb(31, 33, 34);  /* white */
-  --second: rgb(51, 57, 58); /* white somke */
-  --third:rgb(157, 165, 167); /* black */
-  --hover:rgb(57, 61, 66);  /*rgb(231, 239, 240)*/
-  --btn:rgb(78, 78, 78);  /*#088abd*/
-  --tag:#161d1c; /*#DFF5F4;*/
+  --first: white;
+  --second:  whitesmoke;
+  --third: black;
+  --hover: rgb(231, 239, 240);
+  --btn: #088abd;
+  --tag:#DFF5F4;
 }
 
 html,

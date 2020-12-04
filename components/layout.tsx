@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import style from '../styles/Layout.module.css'
 import Footer from './footer';
 import RightMenu from './rightmenu';
@@ -8,6 +8,10 @@ import NavBar from './navbar';
 import SigninAlert from './signinAlert'
 
 export default function Layout(props) {
+
+    useEffect(() => {
+
+    })
 
 
     return (

@@ -17,7 +17,8 @@ const NotFound404Img = 'https://redeyereloading.com/wp-content/uploads/2017/08/e
 const NoSearchResImg = 'https://i.gifer.com/AqDZ.gif'
 
 const randomSuffixForQuestions: Array<string> = [
-    "asked a new question  ", "has some doubt in this question", "wants to know the answer of this question "
+    "asked a new question  ", "has some doubt in this question", "wants to know the answer of this question ",
+    "has some difficulty in this question"
 ]
 
 const questionWindowSize = 20;

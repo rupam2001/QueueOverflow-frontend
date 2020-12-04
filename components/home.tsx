@@ -40,7 +40,7 @@ export default function Home() {
                 setLoading(false)
 
             }).catch(err => {
-                alert("Error while fetching")
+                // alert("Error while fetching")
                 setLoading(false)
             })
 

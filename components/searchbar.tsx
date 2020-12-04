@@ -22,21 +22,6 @@ export default function Searchbar() {
 
     const router = useRouter()
 
-    // useEffect(() => {
-    //     var elem = document.getElementById('mdbox');
-    //     elem.scrollTop = elem.scrollHeight;
-    // }, [markdownText])
-
-    // useEffect(()=>{
-    //     $(window).on('scroll', function() { 
-    //         if ($(window).scrollTop() >= $( 
-    //           '.div').offset().top + $('.div'). 
-    //             outerHeight() - window.innerHeight) { 
-
-    //             alert('You reached the end of the DIV'); 
-    //         } 
-    //     }); 
-    // })
 
     const handleSearch = (e) => {
         let item = e.target.value
@@ -52,7 +37,7 @@ export default function Searchbar() {
                     progressBarRef.current.complete()
                 })
                 .catch(err => {
-                    alert("er")
+                    // alert("er")
                     searchResultDropDownRef.current.style.display = 'block'
                     progressBarRef.current.complete();
                     setSearchData([]);

@@ -4,6 +4,7 @@ import style from '../styles/Layout.module.css'
 import { AutoAuthProgressImg, NotLoginImg } from '../utils/constanse'
 import { Button } from './stateless/stateless'
 import GoogleLogin from 'react-google-login';
+import { ToggleTheme } from '../utils/helpers'
 
 
 
@@ -82,7 +83,9 @@ export default function Profile() {
                 }
             })
     }
-
+    const handleThemeClick = () => {
+        ToggleTheme()
+    }
     return (
         <div className="dropdown" >
             {
@@ -99,9 +102,9 @@ export default function Profile() {
                 {
                     isLogin ? (
                         <>
-                            <div className="dd-item" id="myDropdown" onClick={handleLogout}>
-                                <i className="fa fa-sign-out" aria-hidden="true"></i>
-                                <span>Logout</span>
+                            <div className="dd-item" id="myDropdown" onClick={handleThemeClick}>
+                                <i className={"fa " + localStorage.getItem("theme") === 'dark' ? "fa-moon" : "fa-sun-o"} aria-hidden="true"></i>
+                                <span>Theme</span>
                             </div>
                             <div className="dd-item" id="myDropdown" onClick={handleLogout}>
                                 <i className="fa fa-sign-out" aria-hidden="true"></i>

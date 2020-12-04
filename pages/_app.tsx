@@ -5,6 +5,8 @@ import AuthContextProvider from '../context/authcontext'
 
 import Router from 'next/router'
 import { progressBarRef } from '../components/refs';
+import { useEffect } from 'react';
+import { applyCurrentTheme } from '../utils/helpers';
 
 Router.onRouteChangeStart = () => {
   progressBarRef.current.continuousStart()
@@ -15,7 +17,9 @@ Router.onRouteChangeComplete = () => {
 };
 
 function MyApp({ Component, pageProps }) {
-
+  useEffect(() => {
+    applyCurrentTheme()
+  }, [])
 
 
   return (
