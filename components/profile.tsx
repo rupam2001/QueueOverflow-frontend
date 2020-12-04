@@ -5,6 +5,8 @@ import { AutoAuthProgressImg, NotLoginImg } from '../utils/constanse'
 import { Button } from './stateless/stateless'
 import GoogleLogin from 'react-google-login';
 
+
+
 export default function Profile() {
     const authContext = useContext(AuthContext)
     const ref = useRef(null)
@@ -66,7 +68,7 @@ export default function Profile() {
         authContext.AuthenticateAsync(response.tokenId)
     }
     const responseErrorGoogle = (response) => {
-        alert("Error")
+        // alert("Error")
     }
 
     const handleLogout = () => {
@@ -97,6 +99,10 @@ export default function Profile() {
                 {
                     isLogin ? (
                         <>
+                            <div className="dd-item" id="myDropdown" onClick={handleLogout}>
+                                <i className="fa fa-sign-out" aria-hidden="true"></i>
+                                <span>Logout</span>
+                            </div>
                             <div className="dd-item" id="myDropdown" onClick={handleLogout}>
                                 <i className="fa fa-sign-out" aria-hidden="true"></i>
                                 <span>Logout</span>

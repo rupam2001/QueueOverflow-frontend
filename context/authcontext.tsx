@@ -11,7 +11,8 @@ interface AuthContextTypes {
     AutoAuthFromTokenAsync(): Promise<AuthResp>,
     AuthenticateAsync(tokenId: string): Promise<AuthResp>,
     AuthRespObj: AuthResp,
-    LogoutAsync(): Promise<boolean>
+    LogoutAsync(): Promise<boolean>,
+    getCookieToken(): string
 }
 
 
@@ -93,7 +94,7 @@ export default function AuthContextProvider(props) {
             value={{
                 isLogin,
                 AutoAuthFromTokenAsync, AuthenticateAsync,
-                AuthRespObj, LogoutAsync
+                AuthRespObj, LogoutAsync, getCookieToken
             }}
         >
             {props.children}

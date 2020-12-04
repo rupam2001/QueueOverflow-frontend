@@ -19,21 +19,21 @@ export default function SideMenu() {
                             <span>Articles</span>
                         </div>
                     </Link>
-                    <Link href="/tags">
+                    {/* <Link href="/tags">
                         <div className={styels.route + (router.pathname == '/tags' ? " " + styels.active : "")}>
                             <span>Tags</span>
                         </div>
-                    </Link>
+                    </Link> */}
                     <Link href="/peoples">
                         <div className={styels.route + (router.pathname == '/peoples' ? " " + styels.active : "")}>
                             <span>Peoples</span>
                         </div>
                     </Link>
-                    <Link href="/create">
+                    {/* <Link href="/create">
                         <div className={styels.route + (router.pathname == '/create' ? " " + styels.active : "") + " " + styels.compose}>
                             <span>Compose <big>+</big></span>
                         </div>
-                    </Link>
+                    </Link> */}
                 </div>
             </div>
 

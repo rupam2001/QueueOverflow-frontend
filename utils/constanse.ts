@@ -1,11 +1,30 @@
 const ENDPOINT = 'http://192.168.43.79:3300'
 
-const AuthRoute = '/auth/google'
-const AutoAuthRoute = '/auth/autoauth'
-const LogoutRoute = '/auth/logout'
+const AuthRoute = '/auth/google' //post
+const AutoAuthRoute = '/auth/autoauth' //post
+const LogoutRoute = '/auth/logout'  //post
+const TagsRoute = "/question/tags"  //get
+const QuestionCreateRoute = "/question/create"
+
+const QuestionGetRouteBySlug = "question/q/"
+const QuestionGetRouteAll = "/question/getall"
+
+
 const AutoAuthProgressImg = 'https://tools.ndm.ox.ac.uk/haiku_iframes/include/images/loading.gif'
 
 const NotLoginImg = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Black_x.svg/525px-Black_x.svg.png'
-const NotFound404Img = 'https://assets.materialup.com/uploads/26541cce-49c6-4e35-a055-e11b90ffad68/preview.gif'
+const NotFound404Img = 'https://redeyereloading.com/wp-content/uploads/2017/08/error-page-background-img.jpg'
 const NoSearchResImg = 'https://i.gifer.com/AqDZ.gif'
-export { ENDPOINT, AuthRoute, AutoAuthRoute, LogoutRoute, NotLoginImg, AutoAuthProgressImg, NoSearchResImg, NotFound404Img }
+
+const randomSuffixForQuestions: Array<string> = [
+    "asked a new question  ", "has some doubt in this question", "wants to know the answer of this question "
+]
+
+const questionWindowSize = 20;
+
+export {
+    ENDPOINT, AuthRoute, AutoAuthRoute, LogoutRoute,
+    NotLoginImg, AutoAuthProgressImg, NoSearchResImg,
+    NotFound404Img, TagsRoute, QuestionCreateRoute, QuestionGetRouteBySlug, QuestionGetRouteAll,
+    randomSuffixForQuestions, questionWindowSize
+}

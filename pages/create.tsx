@@ -1,25 +1,27 @@
-import { UV_FS_O_FILEMAP } from 'constants'
 import { useContext, useEffect, useRef, useState } from 'react'
-import { isSetAccessor } from 'typescript'
 import DraftPanle, { saveDraft, updateDraft } from '../components/draftPanel'
 import Editor from '../components/editor'
 import MarkDown from '../components/markdown'
 import NavBar from '../components/navbar'
 import { Button } from '../components/stateless/stateless'
 import moment from 'moment'
+import router, { useRouter } from 'next/router'
+
 
 const notify = (msg: string) => {
     alert(msg)
 }
 import jsPDF from 'jspdf'
 import { AuthContext } from '../context/authcontext'
-import { signinAlertRef } from '../components/refs'
+import { progressBarRef, signinAlertRef } from '../components/refs'
 import Tags from '../components/tags'
+import { createQuestionAsync } from '../utils/globalapicalls'
 
 export default function Create() {
     const authContext = useContext(AuthContext)
 
     const doc = new jsPDF();
+    const router = useRouter()
 
     const [markdownText, setMarkdownText] = useState<string>('')
     const [title, setTitle] = useState<string>('')
@@ -92,7 +94,7 @@ export default function Create() {
     )
 
     useEffect(() => {
-
+        //prevent ctrl + s
         window.addEventListener("keydown", (e) => {
             if (e.ctrlKey && (e.keyCode == 83)) {
                 e.preventDefault();
@@ -123,6 +125,11 @@ export default function Create() {
         elem.scrollTop = elem.scrollHeight;
     }, [markdownText])
 
+    const [tags, setTags] = useState([])
+    const showTagsModalRef = useRef(null)
+
+    const [isCreatingQuestion, setIsCreatingquestion] = useState(false)
+
     const handlePostQuestion = () => {
         if (!authContext.isLogin) {
             signinAlertRef.current.style.display = 'flex'
@@ -136,13 +143,32 @@ export default function Create() {
             alert("Body too short")
             return
         }
+        if (tags.length === 0) //if no tags are selected prompt the user to select tags
+        {
+            showTagsModalRef.current.style.display = 'flex'
+            return
+        }
 
+        //send to the server
+        setIsCreatingquestion(true)
+        progressBarRef.current.continuousStart()
+
+        createQuestionAsync({ title: title, body: markdownText, tags: tags, type: 'question', time: new Date })
+            .then(({ success, newQuestion }) => {
+                setIsCreatingquestion(false);
+                //go to that page.
+                progressBarRef.current.continuousStart()
+
+                router.push("/posts/questions/" + newQuestion._id)
+
+            }).catch(err => {
+                alert("Error")
+            })
+    }
+    const handleAddTags = () => {
         showTagsModalRef.current.style.display = 'flex'
-
     }
 
-    const [tags, setTags] = useState([])
-    const showTagsModalRef = useRef(null)
 
     const ModalTags = () => (
         <div ref={showTagsModalRef} className="ed-modal">
@@ -174,7 +200,8 @@ export default function Create() {
                             textAreaStyle={{ fontSize: 'medium' }}
                         />
                         <div className="cr-ed-btns">
-                            <Button onclickCallBack={() => { handlePostQuestion() }} text="Post question" />
+                            <Button onclickCallBack={() => { handlePostQuestion() }} text="Post question" disable={isCreatingQuestion} />
+                            <Button onclickCallBack={() => { handleAddTags() }} text="add tags" disable={isCreatingQuestion} buttonStyle={{ backgroundColor: 'transparent', color: 'blue' }} />
                             <Button onclickCallBack={() => { saveAsDraftLocaly() }} text="Save as draft in this device" buttonStyle={{ backgroundColor: 'transparent', color: 'red', marginLeft: '1rem', flex: 1, fontSize: 'small' }} />
                             <Button onclickCallBack={() => { handleExportHtml('mdbox') }} text="Export as html" buttonStyle={{ backgroundColor: 'transparent', color: 'green', fontSize: 'small', float: 'right' }} />
                         </div>

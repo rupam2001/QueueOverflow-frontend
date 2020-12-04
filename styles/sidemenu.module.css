@@ -27,7 +27,7 @@
 }
 
 .active{
-    background-color: #F2F2F2;
+    background-color: var(--second);
     animation-name: expand;
     animation-duration: 0.5s;
     animation-timing-function: ease-out;

@@ -1,16 +1,20 @@
 import React, { useState } from 'react';
-const Store = React.createContext(null)
+const StoreContext = React.createContext(null)
 
+
+//not in use
 
 export default function StoreProvider(props) {
 
+    const [homeQuestions, setHomeQuestions] = useState([])
 
     return (
-        <Store.Provider
+        <StoreContext.Provider
             value={{
+                homeQuestions, setHomeQuestions
             }}
         >
             {props.children}
-        </Store.Provider>
+        </StoreContext.Provider>
     )
 }

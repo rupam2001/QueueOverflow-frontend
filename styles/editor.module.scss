@@ -5,12 +5,13 @@
 }
 .toolWrapper{
     display: flex;
-    background-color: #F2F2F2;
+    background-color: var(--second);
     padding: 0.5rem;
     i{
         margin-left: 1.5rem;
         cursor: pointer;
         transition: all 0.1s;
+        color: var(--third);
     }
     i:hover{
         transform: scale(1.2);

@@ -1,11 +1,42 @@
+:root{
+  --first:rgb(31, 33, 34);  /* white */
+  --second: rgb(51, 57, 58); /* white somke */
+  --third:rgb(157, 165, 167); /* black */
+  --hover:rgb(57, 61, 66);  /*rgb(231, 239, 240)*/
+  --btn:rgb(78, 78, 78);  /*#088abd*/
+  --tag:#161d1c; /*#DFF5F4;*/
+}
+
 html,
 body {
   padding: 0;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    background-color:var(--first);
+  color: var(--third);
 }
 
+textarea, input{
+  background-color: var(--first);
+  color: var(--third);
+}
+i{
+  color: var(--third);
+}
+div{
+  /* background-color: var(--first); */
+}
+pre{
+  background-color: var(--second); 
+  color: var(--second);
+}
+
+
+
+body::-webkit-scrollbar{
+  display: none;
+}
 a {
   color: inherit;
   text-decoration: none;
@@ -22,7 +53,7 @@ a {
 .dropdown-content {
   display: none;
   position: absolute;
-  background-color: #fff;
+  background-color: var(--first);
   min-width: 230px;
   border: 1px solid #ddd;
   z-index: 1;
@@ -39,7 +70,7 @@ a {
 
 }
 
-.dropdown-content a:hover {background-color: #f1f1f1}
+.dropdown-content a:hover {background-color:var(--hover)}
 .dropdown-content a {
   color: black;
   padding: 12px 16px;
@@ -47,14 +78,14 @@ a {
   display: block;
 }
 .dropdown-content .dd-item{
-  color: black;
+  color: var(--third);
   padding: 1rem;
   text-decoration: none;
   display: block;
   cursor: pointer;
 }
 .dropdown-content .dd-item:hover{
-  background-color: #f1f1f1
+  background-color:var(--hover);
 }
 .dd-item i{
   margin-right: 1rem;
@@ -62,7 +93,7 @@ a {
 }
 
 .button{
-  background-color: #088abd;
+  background-color: var(--btn);
   padding: 0.4rem;
   border-radius: 0.2rem;
   height: fit-content;
@@ -72,6 +103,12 @@ a {
 .button:active{
   transform: scale(0.98);
 }
+.button-disable{
+  background-color: whitesmoke;
+  color: grey;
+}
+
+
 .ed-modal{
   background-color: rgba(24, 22, 22, 0.514);
   position: absolute;
@@ -88,7 +125,7 @@ a {
 }
 
 .ed-main{
-  background-color: #fff;
+  background-color: var(--second);
   display: flex;
   flex-direction: column;
   padding: 1rem;
@@ -183,12 +220,11 @@ a {
 .cr-preview-2{
   height: 100vh;
   overflow: auto;
-  word-wrap: break-word;
+  /* word-wrap: break-word; */
   overflow-x: hidden;
   width: 100%;
   zoom: 0.8;
   /* border: 1px solid rgb(201, 200, 200); */
-  
 
 }
 .cr-preview-2::-webkit-scrollbar{
@@ -223,10 +259,10 @@ a {
   align-items: center;
   z-index: 999;
   min-width: 100vw;
-  min-height: 100%;
+  min-height: 140vh;
   left:0;
   flex-direction: column;
-  background-color: rgb(255, 255, 255);
+  background-color: var(--first);
 }
 .md-large{
   height: auto;
@@ -295,10 +331,10 @@ text{
   flex-direction: column;
   position: absolute;
   left: calc(100% - 10rem - 2rem);
-  background-color: #fff;
+  background-color: var(--first);
   z-index: 99;
   margin-top: -1.5rem;
-  box-shadow:         1px 1px 5px 0px rgba(50, 50, 50, 0.7);
+  box-shadow:       1px 1px 5px 0px rgba(50, 50, 50, 0.7);
 }
 .cr-draft-panel-body{
   padding: 0.2rem;
@@ -329,7 +365,7 @@ text{
   display: flex;
   justify-content: flex-end;
   padding: 0.5rem;
-  background-color: #088abd;
+  background-color: var(--btn);
   align-items: center;
 }
 .cr-draft-panel-head span{
@@ -347,7 +383,7 @@ text{
 .cr-draft-each{
   padding: 0.2rem;
   margin-bottom: 0.1rem;
-  background-color: #F5F5F5;
+  background-color: var(--second);
   text-align: center;
   cursor: pointer;
   border: 1px solid gray;
@@ -355,7 +391,7 @@ text{
   align-items: center;
 }
 .cr-draft-each:hover{
-  background-color:rgb(231, 239, 240);
+  background-color: var(--hover);
 
 }
 .cr-draft-panel p{
@@ -430,7 +466,7 @@ text{
 
 .tag-main{
   max-width: 100%;
-  background-color: #fff;
+  background-color: var(--second);
   display: flex;
   flex-wrap: wrap; 
   justify-content: center;
@@ -438,7 +474,7 @@ text{
 }
 .tag-each{
   padding: 0.5rem;
-  background-color: #71bddb;
+  background-color: var(--tag);
   margin: 0.5rem;
   color: #095f81;
   border-radius: 1rem;
@@ -446,7 +482,8 @@ text{
   
 }
 .tag-selected{
-  background-color: whitesmoke;
+  background-color: rgb(15, 122, 155);
+  color: white;
 }
 
 .hide-scrollbar::-webkit-scrollbar{
@@ -472,4 +509,19 @@ text{
 .tag-header input{
   height: 1.5rem;
   /* top: 0; */
+}
+
+.notificatinIcon{
+  background: url("../public/icons/bell.svg");
+  width: 25px;
+  height: 25px;
+  display: inline-block;
+}
+.loading{
+  display: flex;
+  width: 100%;
+  height: 80vh;
+  justify-content: center;
+  align-items: center;
+  
 }
