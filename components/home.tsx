@@ -2,7 +2,7 @@ import Layout from '../components/layout'
 import styles from '../styles/Home.module.scss'
 import { Button } from './stateless/stateless'
 import { useRouter } from 'next/router'
-import MarkDown from './markdown'
+
 import { useEffect, useState } from 'react'
 import { getDrafts } from './draftPanel'
 import { getQuestionsAsync } from '../utils/globalapicalls'

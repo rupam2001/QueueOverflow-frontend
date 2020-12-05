@@ -71,6 +71,7 @@ const Editor = (props: propsType) => {
                 break;
             case "link":
                 linkModalRef.current.style.display = 'flex'
+                MakeCenter(linkModalRef)
                 break;
             case 'image':
                 ImgModalRef.current.style.display = 'flex'
@@ -127,7 +128,7 @@ const Editor = (props: propsType) => {
     }
 
     const Modal = ({ title }) => (
-        <div className="ed-modal" ref={linkModalRef}>
+        <div className="ed-modal ans-ed-modal" ref={linkModalRef}>
             <div className="ed-main">
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <i className="fa fa-times" aria-hidden="true" onClick={() => { linkModalRef.current.style.display = 'none' }}></i>
@@ -195,6 +196,9 @@ const Editor = (props: propsType) => {
             </div>
             <div className={styles.textAreaWrapper}>
                 <textarea spellCheck={"false"} style={props.textAreaStyle} className={styles.textArea} placeholder={props.textAreaPlaceholder} value={text} ref={txtarea} onChange={handleOnChangeText} />
+                <div className={styles.mdl}>
+                    hello
+                </div>
             </div>
             {Modal({ title: "Add a link" })}
             {ModalImg({ title: "Add your image here", onclickCallBack: handleModalImgAdd })}
@@ -204,5 +208,10 @@ const Editor = (props: propsType) => {
 }
 
 export default Editor
+
+function MakeCenter(ref) {
+    let m = window.pageYOffset - ref.current.clientHeight / 2
+    ref.current.style.margintTop = m
+}
 
 

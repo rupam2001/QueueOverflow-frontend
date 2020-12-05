@@ -5,6 +5,8 @@
   --hover: rgb(231, 239, 240);
   --btn: #088abd;
   --tag:#DFF5F4;
+
+  --pres:#F5F2F0;
 }
 
 html,
@@ -27,9 +29,20 @@ i{
 div{
   /* background-color: var(--first); */
 }
-pre{
-  background-color: var(--second); 
-  color: var(--second);
+pre[style]{
+  background-color: var(--pres) !important; 
+  /* background-color: var(--pres) !important; */
+}
+code[style]{
+  text-shadow: none !important;
+  color: var(--third) !important;
+  
+}
+code[style] span[style]{
+  background: transparent !important;
+  /* color: var(--tag) !important; */
+  /* text-decoration: none !important; */
+
 }
 
 
@@ -524,4 +537,32 @@ text{
   justify-content: center;
   align-items: center;
   
+}
+.profile-pic{
+  display: flex;
+  align-items: center;
+  padding-left: 1rem;
+  font-style: italic;
+}
+.profile-pic span{
+  font-size: small;
+  flex: 1;
+  
+}
+.profile-pic p{
+  font-size: xx-small;
+}
+.profile-pic img{
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  margin-right: 0.5rem;
+}
+.q-wrapper{
+  display: flex;
+}
+
+.ans-ed-modal{
+  /* height: ; */
+ 
 }

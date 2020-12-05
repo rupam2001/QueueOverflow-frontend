@@ -4,6 +4,8 @@ import Layout from "../../../components/layout"
 import MarkDown from "../../../components/markdown"
 import { useEffect, useState } from "react"
 import Loader from 'react-loader-spinner'
+import moment from 'moment'
+import Answer from "../../../components/answer"
 const getQuestion = async (slug: string) => {
     try {
 
@@ -14,10 +16,12 @@ const getQuestion = async (slug: string) => {
     }
 }
 
+
 export const getStaticProps = async ({ params }) => {
     try {
 
         const res = await getQuestion(params.slug)
+        // console.log(res.question.author_id, ".>.")
 
         return {
             props: { res }
@@ -28,6 +32,7 @@ export const getStaticProps = async ({ params }) => {
             redirect: {
                 destination: '/404',
                 permanent: false,
+                revalidate: 60 * 60 * 30  //30mins
             },
         }
     }
@@ -36,7 +41,9 @@ export const getStaticProps = async ({ params }) => {
 export const getStaticPaths = () => {
     return {
         paths: [],
-        fallback: true
+        fallback: true,
+
+
     }
 }
 
@@ -44,6 +51,9 @@ export const getStaticPaths = () => {
 const Questions = (props) => {
 
     const router = useRouter()
+
+
+
 
     if (router.isFallback) {
         return (
@@ -62,11 +72,16 @@ const Questions = (props) => {
     }
     return (
         <Layout>
-
+            <div className="profile-pic">
+                <img src={props.res.question.author_id.profile_pic} />
+                <span>{props.res.question.author_id.name}</span>
+                <p>{moment(props.res.question.time).calendar()}</p>
+            </div>
             <div className="cr-preview-2" style={{ height: 'fit-content', padding: '0.5rem', zoom: 0.9, paddingLeft: '5rem' }}>
                 <MarkDown
                     markdownText={props.res.question.title + "\n" + props.res.question.body}
                 />
+                <Answer />
             </div>
         </Layout>
     )

@@ -10,6 +10,7 @@ export function ToggleTheme() {
         r.style.setProperty("--hover", "rgb(57, 61, 66)")
         r.style.setProperty("--btn", "rgb(78, 78, 78)")
         r.style.setProperty("--tag", "#161d1c")
+        r.style.setProperty("--pres", "black")
     } else {
         localStorage.setItem("theme", "white");
         r.style.setProperty("--first", "white")
@@ -18,6 +19,7 @@ export function ToggleTheme() {
         r.style.setProperty("--hover", "rgb(231, 239, 240)")
         r.style.setProperty("--btn", "#088abd")
         r.style.setProperty("--tag", "#DFF5F4")
+        r.style.setProperty("--pres", "#F5F2F0")
     }
 }
 
@@ -32,6 +34,7 @@ export function applyCurrentTheme() {
         r.style.setProperty("--hover", "rgb(231, 239, 240)")
         r.style.setProperty("--btn", "#088abd")
         r.style.setProperty("--tag", "#DFF5F4")
+        r.style.setProperty("--pres", "#F5F2F0")
     } else {
         r.style.setProperty("--first", "rgb(31, 33, 34)")
         r.style.setProperty("--second", "rgb(51, 57, 58)")
@@ -39,5 +42,6 @@ export function applyCurrentTheme() {
         r.style.setProperty("--hover", "rgb(57, 61, 66)")
         r.style.setProperty("--btn", "rgb(78, 78, 78)")
         r.style.setProperty("--tag", "#161d1c")
+        r.style.setProperty("--pres", "black")
     }
 }
