@@ -9,8 +9,8 @@ interface propType {
 }
 
 const Button = (props: propType) => (
-    <div className={props.disable ? "button button-disable" : "button"} onClick={() => { if (!props.disable) props.onclickCallBack() }} style={props.buttonStyle}>
-        <span>{props.text}</span>
+    <div className={props.disable ? "button button-disable" : "button"} id="ignore" onClick={(e) => { if (!props.disable) props.onclickCallBack(e) }} style={props.buttonStyle}>
+        <span id="ignore" >{props.text}</span>
     </div>
 )
 

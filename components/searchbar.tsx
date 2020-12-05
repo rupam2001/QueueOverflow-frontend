@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
 import style from '../styles/Layout.module.css'
-import { NoSearchResImg } from '../utils/constanse'
+import { NoSearchResImg, questionWindowSize } from '../utils/constanse'
 import { searchRemoteAsync } from '../utils/globalapicalls'
 import { progressBarRef } from './refs'
 import moment from 'moment'
 import { useRouter } from 'next/router'
+import { Button } from './stateless/stateless'
 
 interface searchDataTypes {
     _id: string,
@@ -19,31 +20,58 @@ export default function Searchbar() {
     const [searchData, setSearchData] = useState<Array<searchDataTypes>>([])
 
     const [skip, setSkip] = useState(0)
+    const [range, setRange] = useState({ skip: 0, limit: questionWindowSize })
 
     const router = useRouter()
 
+    const [searchItem, setSearchItem] = useState('')
+
 
     const handleSearch = (e) => {
+        setEnd(false)
         let item = e.target.value
         if (e.key === 'Enter' || e.keyCode === 13) {
             //validate 
             if (item.length === 0) return
             //search
             progressBarRef.current.staticStart()
-            searchRemoteAsync(item, skip, 10)
+            searchRemoteAsync(item, range.skip, range.limit)
                 .then(questions => {
                     searchResultDropDownRef.current.style.display = 'block'
-                    setSearchData(questions)
+                    setSearchData([...searchData, ...questions])
                     progressBarRef.current.complete()
                 })
                 .catch(err => {
                     // alert("er")
                     searchResultDropDownRef.current.style.display = 'block'
                     progressBarRef.current.complete();
-                    setSearchData([]);
+                    setSearchData(searchData);
                 })
         }
     }
+    const [end, setEnd] = useState(false)
+    useEffect(() => {
+        if (searchData.length === 0) return
+
+        progressBarRef.current.staticStart()
+        searchRemoteAsync(searchItem, range.skip, range.limit)
+            .then(questions => {
+                if (questions.length < questionWindowSize) {
+                    setEnd(true)
+                }
+                searchResultDropDownRef.current.style.display = 'block'
+                setSearchData([...searchData, ...questions])
+                progressBarRef.current.complete()
+            })
+            .catch(err => {
+                // alert("er")
+                searchResultDropDownRef.current.style.display = 'block'
+                progressBarRef.current.complete();
+                setSearchData(searchData);
+            })
+
+    }, [range])
+
     useEffect(() => {
         const fn = (e) => {
             if (e.target.id !== 'myDropdown' && e.target.id !== "ignore") {
@@ -73,7 +101,7 @@ export default function Searchbar() {
 
     return (
         <div className="dropdown">
-            <input className={style.searchInput} placeholder="search by title or tags or both" onKeyUp={handleSearch} />
+            <input className={style.searchInput} placeholder="search by title or tags or both" onKeyUp={handleSearch} onChange={(e) => { setSearchItem(e.target.value) }} />
             <div id="myDropdown" onScroll={handelScorll} className={"dropdown-content " + style.searchDropDown} ref={searchResultDropDownRef}>
                 {
                     searchData.map(each => (
@@ -92,7 +120,14 @@ export default function Searchbar() {
                         src={NoSearchResImg} style={{ width: '100%', }}
                     />
                 }
-
+                {
+                    searchData.length !== 0 && !end && <Button text="load more"
+                        onclickCallBack={(e) => {
+                            setRange({ skip: range.skip + questionWindowSize, limit: questionWindowSize })
+                        }}
+                        buttonStyle={{ textAlign: 'center', backgroundColor: 'transparent', color: '#088abd' }}
+                    />
+                }
 
             </div>
         </div>

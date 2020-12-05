@@ -6,6 +6,8 @@ import { Button } from './stateless/stateless'
 import GoogleLogin from 'react-google-login';
 import { ToggleTheme } from '../utils/helpers'
 
+import router from 'next/router'
+
 
 
 export default function Profile() {
@@ -86,6 +88,11 @@ export default function Profile() {
     const handleThemeClick = () => {
         ToggleTheme()
     }
+
+    const handleMyQuestionClick = () => {
+        router.push("/myquestions")
+    }
+
     return (
         <div className="dropdown" >
             {
@@ -102,6 +109,10 @@ export default function Profile() {
                 {
                     isLogin ? (
                         <>
+                            <div className="dd-item" id="myDropdown" onClick={handleMyQuestionClick}>
+                                <i className={'fa fa-clipboard'} aria-hidden="true"></i>
+                                <span>My questions</span>
+                            </div>
                             <div className="dd-item" id="myDropdown" onClick={handleThemeClick}>
                                 <i className={"fa " + localStorage.getItem("theme") === 'dark' ? "fa-moon" : "fa-sun-o"} aria-hidden="true"></i>
                                 <span>Theme</span>

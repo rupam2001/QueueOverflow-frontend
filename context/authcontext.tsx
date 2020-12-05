@@ -4,7 +4,8 @@ import Cookie from 'js-cookie'
 import SigninAlert from '../components/signinAlert';
 interface AuthResp {
     success: boolean,
-    profile_pic: string
+    profile_pic: string,
+    name: string
 }
 interface AuthContextTypes {
     isLogin: boolean,
@@ -21,7 +22,7 @@ const AuthContext = React.createContext<AuthContextTypes>(null)
 export default function AuthContextProvider(props) {
 
     const [isLogin, setIsLogin] = useState(false);
-    const [AuthRespObj, setAuthRespObj] = useState<AuthResp>({ success: false, profile_pic: '' })
+    const [AuthRespObj, setAuthRespObj] = useState<AuthResp>({ success: false, profile_pic: '', name: 'name' })
 
     const getCookieToken = (): string => {
         const token = Cookie.get('token')
@@ -41,32 +42,32 @@ export default function AuthContextProvider(props) {
             //get the token from the cookie
             const token = getCookieToken()
             //if token not found return
-            if (!token) return { success: false, profile_pic: '' }
+            if (!token) return { success: false, profile_pic: '', name: 'name' }
             //api call with token
-            const { success, profile_pic } = await fetch(ENDPOINT + AutoAuthRoute, { method: 'POST', body: JSON.stringify({ token }), headers: { "Content-Type": "application/json" } }).then(resp => resp.json())
-            setAuthRespObj({ success, profile_pic })
+            const { success, profile_pic, name } = await fetch(ENDPOINT + AutoAuthRoute, { method: 'POST', body: JSON.stringify({ token }), headers: { "Content-Type": "application/json" } }).then(resp => resp.json())
+            setAuthRespObj({ success, profile_pic, name })
             setIsLogin(success)
-            return { success, profile_pic }
+            return { success, profile_pic, name }
         } catch (e) {
             setIsLogin(false)
-            return { success: false, profile_pic: '' }
+            return { success: false, profile_pic: '', name }
         }
     }
 
     const AuthenticateAsync = async (tokenId: string): Promise<AuthResp> => {
         try {
             //send the tokenId got from google oauth
-            const { token, success, profile_pic } = await fetch(ENDPOINT + AuthRoute, { method: 'POST', body: JSON.stringify({ tokenId: tokenId }), headers: { "Content-Type": "application/json" } }).then(resp => resp.json())
+            const { token, success, profile_pic, name } = await fetch(ENDPOINT + AuthRoute, { method: 'POST', body: JSON.stringify({ tokenId: tokenId }), headers: { "Content-Type": "application/json" } }).then(resp => resp.json())
             //if oauth failed in api
-            if (!success) return { success, profile_pic: '' }
+            if (!success) return { success, profile_pic: '', name }
             //oauth sucess setting the token as cookie
             setCookieToken(token, 10)
-            setAuthRespObj({ success, profile_pic })
+            setAuthRespObj({ success, profile_pic, name })
             setIsLogin(true)
-            return { success, profile_pic }
+            return { success, profile_pic, name }
         } catch (e) {
             // server responded with error
-            return { success: false, profile_pic: '' }
+            return { success: false, profile_pic: '', name }
         }
     }
     const LogoutAsync = async (): Promise<boolean> => {
@@ -80,7 +81,7 @@ export default function AuthContextProvider(props) {
             else return false
 
             setIsLogin(false)
-            setAuthRespObj({ success: false, profile_pic: '' })
+            setAuthRespObj({ success: false, profile_pic: '', name: 'name' })
             return success
         } catch (e) {
 

@@ -14,8 +14,8 @@ export default function SideMenu() {
                             <span>Home</span>
                         </div>
                     </Link>
-                    <Link href="/tags">
-                        <div className={styels.route + (router.pathname == '/tags' ? " " + styels.active : "")}>
+                    <Link href="/articles">
+                        <div className={styels.route + (router.pathname == '/articles' ? " " + styels.active : "")}>
                             <span>Articles</span>
                         </div>
                     </Link>

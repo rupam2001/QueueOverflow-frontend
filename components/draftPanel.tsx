@@ -10,7 +10,8 @@ interface draftType {
     name: string,
     title: string,
     body: string,
-    time: string
+    time: string,
+    coverphoto?: string
 }
 
 const DraftPanle = (props: propType) => {
@@ -44,21 +45,6 @@ const DraftPanle = (props: propType) => {
         loadFromLocalDraft()
     }
 
-    // const ModalDelete = ({ title }) => (
-    //     <div className="ed-modal" ref={deletModalRef} style={{}}>
-    //         <div className="ed-main">
-    //             <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-    //                 <i className="fa fa-times" aria-hidden="true" onClick={() => { deletModalRef.current.style.display = 'none' }}></i>
-    //             </div>
-    //             <p>{title}</p>
-    //             <div className="ed-btns">
-    //                 <div>
-    //                     <Button text="Confirm" onclickCallBack={() => { handleDelete() }} />
-    //                 </div>
-    //             </div>
-    //         </div>
-    //     </div>
-    // )
 
     const panelBodyRef = useRef(null)
 
@@ -119,7 +105,6 @@ const getDrafts = (args: { name?: string, callback?: Function }): Array<draftTyp
 const saveDraft = (draft: draftType): { sucess: boolean, msg: string } => {
     let isTitleExist = getDrafts({ name: draft.name }).length
     if (isTitleExist) {
-
         return { sucess: false, msg: "Name already exist" }
     }
     let preDrafts = JSON.parse(localStorage.getItem("drafts"))

@@ -24,7 +24,7 @@
   }
   .searchInput{
       border:1px solid gray;
-      width: 20rem;
+      width: 25rem;
       height: 1.6rem;
       color: rgb(97, 94, 94);
       padding-left: 0.5rem;
@@ -33,7 +33,7 @@
   }
   .searchInput:focus{
     outline: none;
-    width: 40rem;
+    /* width: 40rem; */
   }
   .searchItemHead{
     display: flex;
@@ -59,7 +59,7 @@
       display: flex; 
   }
   .searchDropDown{
-    width: 40rem;
+    width: 25rem;
   }
   .leftcontainer{
     width:100%;

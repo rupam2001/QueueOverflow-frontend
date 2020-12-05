@@ -11,7 +11,13 @@ import Loader from 'react-loader-spinner'
 import { questionWindowSize, randomSuffixForQuestions } from '../utils/constanse'
 
 // import { Button } from '../components/stateless/stateless'
-export default function Home() {
+interface propTypes {
+    customeFetch?(skip: number, limit: number): Promise<Array<any>>,
+    heading?: string,
+    hideAskbtn?: boolean
+}
+
+export default function Home(props: propTypes) {
     const router = useRouter()
 
     const [questions, setQuestions] = useState([])
@@ -32,7 +38,10 @@ export default function Home() {
     useEffect(() => {
         setLoading(true)
         setShowLoadMore(false)
-        getQuestionsAsync(range.skip, range.limit)
+
+        const fetchFunc = props.customeFetch ? props.customeFetch : getQuestionsAsync
+
+        fetchFunc(range.skip, range.limit)
             .then(qs => {
                 setQuestions([...questions, ...qs])
                 // console.log(questions)
@@ -53,8 +62,11 @@ export default function Home() {
         <Layout>
             <div>
                 <div className={styles.head}>
-                    <h4>Top questions</h4>
-                    <Button text="Ask a question" onclickCallBack={handleAskQuestion} />
+                    <h4>{props.heading}</h4>
+                    {
+                        !props.hideAskbtn &&
+                        <Button text="Ask a question" onclickCallBack={handleAskQuestion} />
+                    }
                 </div>
                 <div className={styles.feed}>
                     {
@@ -99,7 +111,7 @@ export default function Home() {
                             />
                         </div>
                     }{
-                        showLoadMore && <Button text="load more" onclickCallBack={() => { setRange({ skip: range.limit, limit: range.limit + questionWindowSize }) }}
+                        showLoadMore && <Button text="load more" onclickCallBack={() => { setRange({ skip: range.skip + questionWindowSize, limit: questionWindowSize }) }}
                             buttonStyle={{ textAlign: 'center', backgroundColor: 'transparent', color: 'dodgerblue' }}
                         />
 

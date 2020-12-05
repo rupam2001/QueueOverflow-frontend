@@ -33,8 +33,17 @@ async function createAnswerAsync({ body, q_id }): Promise<{ success: boolean, ne
 }
 
 
+
+
 async function getQuestionsAsync(skip: Number, limit: Number): Promise<Array<any>> {
     const { questions } = await fetch(ENDPOINT + "/question/getall/" + skip + "/" + limit, { method: 'GET', headers: { "Content-Type": "application/json" } }).then(resp => resp.json())
+    return questions
+}
+
+async function getMyQuestionsAsync(skip: Number, limit: Number): Promise<Array<any>> {
+    const token = Cookie.get('token')
+    if (!token) throw new Error("token not found")
+    const { questions } = await fetch(ENDPOINT + "/question/getall/mine/" + skip + "/" + limit, { method: 'POST', body: JSON.stringify({ token: token }), headers: { "Content-Type": "application/json" } }).then(resp => resp.json())
     return questions
 }
 
@@ -53,4 +62,4 @@ async function searchRemoteAsync(query: string, skip: Number, limit: Number): Pr
     return questions
 }
 
-export { createQuestionAsync, getQuestionsAsync, searchRemoteAsync, createAnswerAsync }
+export { createQuestionAsync, getQuestionsAsync, searchRemoteAsync, createAnswerAsync, getMyQuestionsAsync }

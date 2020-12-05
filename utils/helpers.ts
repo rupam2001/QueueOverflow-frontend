@@ -45,3 +45,12 @@ export function applyCurrentTheme() {
         r.style.setProperty("--pres", "black")
     }
 }
+
+export function calcArticleReadTime(article: string): string {
+    const wordsPerMin = 200
+    let words = article.split(" ")
+    let totalWords = words.length
+    let readTimeinMin = Math.ceil(totalWords / wordsPerMin)
+    return `${readTimeinMin} min`
+
+}
