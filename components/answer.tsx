@@ -15,7 +15,7 @@ import jsPDF from 'jspdf'
 import { AuthContext } from '../context/authcontext'
 import { progressBarRef, signinAlertRef } from '../components/refs'
 import Tags from '../components/tags'
-import { createQuestionAsync } from '../utils/globalapicalls'
+import { createAnswerAsync, createQuestionAsync } from '../utils/globalapicalls'
 
 export default function Answer() {
     const authContext = useContext(AuthContext)
@@ -130,39 +130,38 @@ export default function Answer() {
 
     const [isCreatingQuestion, setIsCreatingquestion] = useState(false)
 
+    const [q_id, setQ_id] = useState(null)
+
+    useEffect(() => {
+        const pathname = window.location.pathname
+        const qid = pathname.split("/")[pathname.split("/").length - 1]
+        setQ_id(qid)
+    }, [])
+
     const handlePostQuestion = () => {
         if (!authContext.isLogin) {
             signinAlertRef.current.style.display = 'flex'
             return
         }
-        if (title.length < 5) {
-            alert("Title too short")
-            return
-        }
-        if (markdownText.length < 20) {
+        if (markdownText.length < 10) {
             alert("Body too short")
             return
         }
-        if (tags.length === 0) //if no tags are selected prompt the user to select tags
-        {
-            showTagsModalRef.current.style.display = 'flex'
-            return
-        }
-
         //send to the server
         setIsCreatingquestion(true)
         progressBarRef.current.continuousStart()
 
-        createQuestionAsync({ title: title, body: markdownText, tags: tags, type: 'question', time: new Date })
-            .then(({ success, newQuestion }) => {
-                setIsCreatingquestion(false);
-                //go to that page.
-                progressBarRef.current.continuousStart()
+        createAnswerAsync({ body: markdownText, q_id })
+            .then(({ success, newAns }) => {
 
-                router.push("/posts/questions/" + newQuestion._id)
-
+                progressBarRef.current.complete()
+                if (success)
+                    alert("Done! your answer will be added withing 3mins")
+                else {
+                    alert("Failed to create answer :(")
+                }
             }).catch(err => {
-                alert("Error")
+                alert("Something went wrong:(")
             })
     }
     const handleAddTags = () => {
@@ -182,10 +181,10 @@ export default function Answer() {
     )
 
     return (
-        <div>
-            <div style={{ marginTop: '1rem' }} className="cr-main-na">
+        <div style={{ width: '100%' }}>
+            <div style={{ marginTop: '1rem', width: '100%' }} className="cr-main-na">
                 <div className="cr-left-na">
-                    <div className="cr-left-editor">
+                    <div className="cr-left-editor" style={{ width: '100%' }}>
                         {currentDraft && DraftInfo()}
                         {/* <div className="cr-title">
                             <input placeholder="Title" onChange={(e) => { setTitle("## " + e.target.value); }} defaultValue={title.substring(2)} />
@@ -193,8 +192,8 @@ export default function Answer() {
                         <Editor
                             onChangeCallBack={(text) => { setMarkdownText(text) }}
                             onChangeImageCallBack={() => { }}
-                            containerStyle={{ border: '1px solid gray', height: '20rem' }}
-                            textAreaPlaceholder={"Type your question body here"}
+                            containerStyle={{ border: '1px solid gray', height: '20rem', width: '100%' }}
+                            textAreaPlaceholder={"Type your answer here"}
                             text={markdownText}
                             textAreaStyle={{ fontSize: 'medium' }}
                         />

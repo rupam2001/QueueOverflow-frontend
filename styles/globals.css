@@ -125,8 +125,8 @@ a {
 .ed-modal{
   background-color: rgba(24, 22, 22, 0.514);
   position: absolute;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   z-index: 999;
   top:0;
   display: flex;
@@ -143,7 +143,8 @@ a {
   flex-direction: column;
   padding: 1rem;
   border-radius: 1rem ;
-  min-width: 40rem;
+  width: 70%;
+  /* min-width: 40rem; */
   /* animation-name: popup; */
   animation-duration: 0.05s;
   animation-timing-function: linear;
@@ -565,4 +566,28 @@ text{
 .ans-ed-modal{
   /* height: ; */
  
+}
+
+.ans-box{
+  display: flex;
+  justify-content: center;
+}
+.others-anss-box{
+  margin-top: 4rem;
+  margin-bottom: 2rem;
+}
+.others-anss-header{
+  padding: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+}
+.others-anss-header span{
+  font-size: x-large;
+  font-style: italic;
+  flex:1;
+}
+.others-anss-header p{
+  font-size: x-large;
+  font-style: italic;
 }

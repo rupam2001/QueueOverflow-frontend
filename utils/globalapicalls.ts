@@ -20,6 +20,19 @@ async function createQuestionAsync(question: questionPropType): Promise<{ succes
     return { success, newQuestion }
 }
 
+async function createAnswerAsync({ body, q_id }): Promise<{ success: boolean, newAns: any }> {
+
+    const token = Cookie.get('token')
+
+    if (!token || !q_id || !body) return { success: false, newAns: {} }
+
+    const time = new Date
+
+    const { success, newAns } = await fetch(ENDPOINT + "/question/ans/create", { method: 'POST', body: JSON.stringify({ token, body, time, q_id }), headers: { "Content-Type": "application/json" } }).then(resp => resp.json())
+    return { success, newAns }
+}
+
+
 async function getQuestionsAsync(skip: Number, limit: Number): Promise<Array<any>> {
     const { questions } = await fetch(ENDPOINT + "/question/getall/" + skip + "/" + limit, { method: 'GET', headers: { "Content-Type": "application/json" } }).then(resp => resp.json())
     return questions
@@ -40,4 +53,4 @@ async function searchRemoteAsync(query: string, skip: Number, limit: Number): Pr
     return questions
 }
 
-export { createQuestionAsync, getQuestionsAsync, searchRemoteAsync }
+export { createQuestionAsync, getQuestionsAsync, searchRemoteAsync, createAnswerAsync }

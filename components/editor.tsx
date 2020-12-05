@@ -31,6 +31,8 @@ const Editor = (props: propsType) => {
     const inputTitleVideoRef = useRef(null)
     const inputLinkVideoRef = useRef(null)
 
+    const mdlRef = useRef(null)
+
     useEffect(() => {
         setText(props.text)
     }, [props.text])
@@ -71,13 +73,15 @@ const Editor = (props: propsType) => {
                 break;
             case "link":
                 linkModalRef.current.style.display = 'flex'
-                MakeCenter(linkModalRef)
+                mdlRef.current.style.display = 'flex'
                 break;
             case 'image':
                 ImgModalRef.current.style.display = 'flex'
+                mdlRef.current.style.display = 'flex'
                 break;
             case "video":
                 VideoModalRef.current.style.display = 'flex'
+                mdlRef.current.style.display = 'flex'
                 break;
             default:
                 break;
@@ -93,6 +97,7 @@ const Editor = (props: propsType) => {
         if (inputLinkRef.current.value.length < 10 || inputTitleRef.current.value.length < 1) return;
         applyTool(`[${inputTitleRef.current.value}]`, `(${inputLinkRef.current.value})`, true)
         linkModalRef.current.style.display = 'none'
+        mdlRef.current.style.display = 'none'
         inputLinkRef.current.value = ''
         inputTitleRef.current.value = ''
     }
@@ -101,6 +106,7 @@ const Editor = (props: propsType) => {
         if (inputLinkImgRef.current.value.length < 10 || inputTitleImgRef.current.value.length < 1) return;
         applyTool(`![${inputTitleImgRef.current.value}]`, `(${inputLinkImgRef.current.value})`, true)
         ImgModalRef.current.style.display = 'none'
+        mdlRef.current.style.display = 'none'
         inputLinkImgRef.current.value = ''
         inputTitleImgRef.current.value = ''
     }
@@ -123,15 +129,16 @@ const Editor = (props: propsType) => {
 
         applyTool(`![${inputTitleVideoRef.current.value}]`, `(${url})`, true)
         VideoModalRef.current.style.display = 'none'
+        mdlRef.current.style.display = 'none'
         inputLinkVideoRef.current.value = ''
         inputTitleVideoRef.current.value = ''
     }
 
     const Modal = ({ title }) => (
-        <div className="ed-modal ans-ed-modal" ref={linkModalRef}>
+        <div className="ed-modal" ref={linkModalRef}>
             <div className="ed-main">
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <i className="fa fa-times" aria-hidden="true" onClick={() => { linkModalRef.current.style.display = 'none' }}></i>
+                    <i className="fa fa-times" aria-hidden="true" onClick={() => { linkModalRef.current.style.display = 'none'; mdlRef.current.style.display = 'none' }}></i>
                 </div>
                 <p>{title}</p>
                 <input placeholder="Give a title" ref={inputTitleRef} />
@@ -149,7 +156,7 @@ const Editor = (props: propsType) => {
         <div className="ed-modal" ref={ImgModalRef}>
             <div className="ed-main">
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <i className="fa fa-times" aria-hidden="true" onClick={() => { ImgModalRef.current.style.display = 'none' }}></i>
+                    <i className="fa fa-times" aria-hidden="true" onClick={() => { ImgModalRef.current.style.display = 'none'; mdlRef.current.style.display = 'none' }}></i>
                 </div>
                 <p>{title}</p>
                 <input placeholder="Give a title" ref={inputTitleImgRef} />
@@ -166,7 +173,7 @@ const Editor = (props: propsType) => {
         <div className="ed-modal" ref={VideoModalRef}>
             <div className="ed-main">
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <i className="fa fa-times" aria-hidden="true" onClick={() => { VideoModalRef.current.style.display = 'none' }}></i>
+                    <i className="fa fa-times" aria-hidden="true" onClick={() => { VideoModalRef.current.style.display = 'none'; mdlRef.current.style.display = 'none' }}></i>
                 </div>
                 <p>{title}</p>
                 <input placeholder="Give a title" ref={inputTitleVideoRef} />
@@ -196,13 +203,12 @@ const Editor = (props: propsType) => {
             </div>
             <div className={styles.textAreaWrapper}>
                 <textarea spellCheck={"false"} style={props.textAreaStyle} className={styles.textArea} placeholder={props.textAreaPlaceholder} value={text} ref={txtarea} onChange={handleOnChangeText} />
-                <div className={styles.mdl}>
-                    hello
+                <div className={styles.mdl} ref={mdlRef}>
+                    {Modal({ title: "Add a link" })}
+                    {ModalImg({ title: "Add your image here", onclickCallBack: handleModalImgAdd })}
+                    {ModalVideo({ title: "Add a youtube video", onclickCallBack: handleModalVideoAdd })}
                 </div>
             </div>
-            {Modal({ title: "Add a link" })}
-            {ModalImg({ title: "Add your image here", onclickCallBack: handleModalImgAdd })}
-            {ModalVideo({ title: "Add a youtube video", onclickCallBack: handleModalVideoAdd })}
         </div>
     )
 }
