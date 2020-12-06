@@ -93,6 +93,14 @@ export default function Profile() {
         router.push("/myquestions")
     }
 
+    const [currTheme, setCurrTheme] = useState(null)
+    useEffect(() => {
+        const theme = localStorage.getItem('theme')
+        setCurrTheme(theme)
+        // alert(theme)
+    }, [])
+
+
     return (
         <div className="dropdown" >
             {
@@ -114,7 +122,7 @@ export default function Profile() {
                                 <span>My questions</span>
                             </div>
                             <div className="dd-item" id="myDropdown" onClick={handleThemeClick}>
-                                <i className={"fa " + localStorage.getItem("theme") === 'dark' ? "fa-moon" : "fa-sun-o"} aria-hidden="true"></i>
+                                <i className={"fa fa-paint-brush "} aria-hidden="true"></i>
                                 <span>Theme</span>
                             </div>
                             <div className="dd-item" id="myDropdown" onClick={handleLogout}>
@@ -124,6 +132,10 @@ export default function Profile() {
                         </>
                     ) : (
                             <div id="myDropdown">
+                                <div className="dd-item" id="myDropdown" onClick={handleThemeClick}>
+                                    <i className={"fa fa-paint-brush"} aria-hidden="true"></i>
+                                    <span>Theme</span>
+                                </div>
                                 <GoogleLogin
                                     clientId="432827620544-earre7sba34jptupkvjuinarabmts09e.apps.googleusercontent.com"
                                     buttonText="Login"

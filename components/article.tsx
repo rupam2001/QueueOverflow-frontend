@@ -87,9 +87,9 @@ export default function Article(props: propTypes) {
                                 <div className={styles.articleTitle}>
                                     <p>{each.title.substring(2).slice(0, 70)}{each.title.substring(2).length > 70 ? "..." : ""}</p>
                                 </div>
-                                <div>
+                                <div className={styles.articletagBox}>
                                     {each.tags.map(tg => (
-                                        <div className="tg-each">
+                                        <div className={styles.articletagEach + " tag-each"} key={tg}>
                                             {tg}
                                         </div>
                                     ))}

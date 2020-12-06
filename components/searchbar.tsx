@@ -10,7 +10,8 @@ import { Button } from './stateless/stateless'
 interface searchDataTypes {
     _id: string,
     title: string,
-    time: Date
+    time: Date,
+    type: string
 }
 
 export default function Searchbar() {
@@ -93,6 +94,7 @@ export default function Searchbar() {
                     searchData.map(each => (
                         <div className="dd-item" key={each._id} onClick={() => { handleItemClick(each) }} id="ignore">
                             <div className={style.searchItemHead} id="ignore">
+                                <p className={style[each.type]}>({each.type})</p>
                                 <span id="ignore">{moment(each.time).calendar()}</span>
                             </div>
                             <span id="ignore">
