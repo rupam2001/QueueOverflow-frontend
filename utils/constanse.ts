@@ -1,4 +1,4 @@
-const ENDPOINT = 'http://192.168.43.19:3300'
+const ENDPOINT = 'http://192.168.43.79:3300'
 
 const AuthRoute = '/auth/google' //post
 const AutoAuthRoute = '/auth/autoauth' //post
@@ -18,7 +18,7 @@ const NoSearchResImg = 'https://i.gifer.com/AqDZ.gif'
 
 const randomSuffixForQuestions: Array<string> = [
     "asked a new question  ", "has some doubt in this question", "wants to know the answer of this question ",
-    "has some difficulty in this question"
+    "has some difficulty with this question"
 ]
 
 const questionWindowSize = 20;  //amount of question fetching at a time and subsequence loadmores

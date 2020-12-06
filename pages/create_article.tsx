@@ -15,7 +15,7 @@ import jsPDF from 'jspdf'
 import { AuthContext } from '../context/authcontext'
 import { progressBarRef, signinAlertRef } from '../components/refs'
 import Tags from '../components/tags'
-import { createQuestionAsync } from '../utils/globalapicalls'
+import { createArticleAsync, createQuestionAsync } from '../utils/globalapicalls'
 import { setCommentRange } from 'typescript'
 import Cover from '../components/cover'
 
@@ -138,6 +138,10 @@ export default function CreateArticle() {
             signinAlertRef.current.style.display = 'flex'
             return
         }
+        if (coverPhotoUrl.length < 10) {
+            alert("please add a cover photo")
+            return
+        }
         if (title.length < 5) {
             alert("Title too short")
             return
@@ -151,17 +155,19 @@ export default function CreateArticle() {
         setIsCreatingquestion(true)
         progressBarRef.current.continuousStart()
 
-        // createQuestionAsync({ title: title, body: markdownText, tags: tags, type: 'question', time: new Date })
-        //     .then(({ success, newQuestion }) => {
-        //         setIsCreatingquestion(false);
-        //         //go to that page.
-        //         progressBarRef.current.continuousStart()
+        createArticleAsync({ title: title, body: markdownText, tags: tags, cover_photo: coverPhotoUrl })
+            .then(({ success, newArticle }) => {
+                setIsCreatingquestion(false);
+                //go to that page.
+                progressBarRef.current.continuousStart()
 
-        //         router.push("/posts/questions/" + newQuestion._id)
+                router.push("/posts/questions/" + newArticle._id)
 
-        //     }).catch(err => {
-        //         alert("Error")
-        //     })
+            }).catch(err => {
+                progressBarRef.current.complete()
+                alert(err)
+                setIsCreatingquestion(false);
+            })
     }
     const handleAddTags = () => {
         showTagsModalRef.current.style.display = 'flex'
@@ -179,9 +185,7 @@ export default function CreateArticle() {
         </div>
     )
 
-    // const draftSelectCallback = (draft) => {
 
-    // }
 
     return (
         <div>

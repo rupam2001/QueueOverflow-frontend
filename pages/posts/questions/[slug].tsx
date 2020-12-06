@@ -38,11 +38,12 @@ export const getStaticProps = async ({ params }) => {
     } catch (e) {
         // throw e
         return {
-            redirect: {
-                destination: '/404',
-                permanent: false,
+            // redirect: {
+            //     destination: '/404',
+            //     permanent: false,
 
-            },
+            // },
+            notFound: true
         }
     }
 }

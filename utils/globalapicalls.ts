@@ -9,6 +9,14 @@ interface questionPropType {
     type: string,
     time: Date
 }
+interface articlePropType {
+    cover_photo: string,
+    title: string,
+    body: string,
+    tags: Array<string>,
+}
+
+
 
 async function createQuestionAsync(question: questionPropType): Promise<{ success: boolean, newQuestion: any }> {
 
@@ -32,12 +40,28 @@ async function createAnswerAsync({ body, q_id }): Promise<{ success: boolean, ne
     return { success, newAns }
 }
 
+async function createArticleAsync(article: articlePropType): Promise<{ success: boolean, newArticle: any }> {
+
+    const token = Cookie.get('token')
+
+    if (!token) return { success: false, newArticle: {} }
+    // alert(token)
+
+    const time = new Date
+
+    const { success, newArticle } = await fetch(ENDPOINT + "/question/article/create", { method: 'POST', body: JSON.stringify({ ...article, time, type: 'article', token }), headers: { "Content-Type": "application/json" } }).then(resp => resp.json())
+    return { success, newArticle }
+}
 
 
 
 async function getQuestionsAsync(skip: Number, limit: Number): Promise<Array<any>> {
     const { questions } = await fetch(ENDPOINT + "/question/getall/" + skip + "/" + limit, { method: 'GET', headers: { "Content-Type": "application/json" } }).then(resp => resp.json())
     return questions
+}
+async function getArticleAsync(skip: Number, limit: Number): Promise<Array<any>> {
+    const { articles } = await fetch(ENDPOINT + "/question/article/getall/" + skip + "/" + limit, { method: 'GET', headers: { "Content-Type": "application/json" } }).then(resp => resp.json())
+    return articles
 }
 
 async function getMyQuestionsAsync(skip: Number, limit: Number): Promise<Array<any>> {
@@ -62,4 +86,4 @@ async function searchRemoteAsync(query: string, skip: Number, limit: Number): Pr
     return questions
 }
 
-export { createQuestionAsync, getQuestionsAsync, searchRemoteAsync, createAnswerAsync, getMyQuestionsAsync }
+export { createQuestionAsync, getQuestionsAsync, searchRemoteAsync, createAnswerAsync, getMyQuestionsAsync, createArticleAsync, getArticleAsync }

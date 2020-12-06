@@ -11,7 +11,6 @@ interface searchDataTypes {
     _id: string,
     title: string,
     time: Date
-    //other stuffs
 }
 
 export default function Searchbar() {
@@ -42,7 +41,6 @@ export default function Searchbar() {
                     progressBarRef.current.complete()
                 })
                 .catch(err => {
-                    // alert("er")
                     searchResultDropDownRef.current.style.display = 'block'
                     progressBarRef.current.complete();
                     setSearchData(searchData);
@@ -52,7 +50,6 @@ export default function Searchbar() {
     const [end, setEnd] = useState(false)
     useEffect(() => {
         if (searchData.length === 0) return
-
         progressBarRef.current.staticStart()
         searchRemoteAsync(searchItem, range.skip, range.limit)
             .then(questions => {
@@ -64,12 +61,10 @@ export default function Searchbar() {
                 progressBarRef.current.complete()
             })
             .catch(err => {
-                // alert("er")
                 searchResultDropDownRef.current.style.display = 'block'
                 progressBarRef.current.complete();
                 setSearchData(searchData);
             })
-
     }, [range])
 
     useEffect(() => {
@@ -85,24 +80,15 @@ export default function Searchbar() {
         }
     }, [])
 
-
-
-
     const handleItemClick = (item) => {
-        // alert("clicked")
         router.push("/posts/questions/" + item._id)
     }
-    const handelScorll = (e) => {
-        // console.log(e)
-        // if (e.target.scrollTop() + e.target.innerHeight() >= e.target.scrollHeight) {
-        //     alert("reached")
-        // }
-    }
+
 
     return (
         <div className="dropdown">
             <input className={style.searchInput} placeholder="search by title or tags or both" onKeyUp={handleSearch} onChange={(e) => { setSearchItem(e.target.value) }} />
-            <div id="myDropdown" onScroll={handelScorll} className={"dropdown-content " + style.searchDropDown} ref={searchResultDropDownRef}>
+            <div id="myDropdown" className={"dropdown-content " + style.searchDropDown} ref={searchResultDropDownRef}>
                 {
                     searchData.map(each => (
                         <div className="dd-item" key={each._id} onClick={() => { handleItemClick(each) }} id="ignore">
