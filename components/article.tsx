@@ -58,7 +58,7 @@ export default function Article(props: propTypes) {
 
     }, [range])
 
-    const handleQuestionCLicked = (slug: string) => {
+    const handleArticleClicked = (slug: string) => {
         router.push("/posts/articles/" + slug)
     }
     return (
@@ -74,7 +74,7 @@ export default function Article(props: propTypes) {
                 <div className={styles.articleFeed}>
                     {
                         articles.map(each => (
-                            <div className={styles.eachArticleMain}>
+                            <div className={styles.eachArticleMain} onClick={() => handleArticleClicked(each._id)}>
                                 <div key={each._id} className={styles.eachArticle}>
                                     <div className={styles.coverPhotWrapper}>
                                         <img src={each.cover_photo} className={styles.coverPhoto} />

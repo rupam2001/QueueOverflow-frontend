@@ -157,11 +157,11 @@ export default function CreateArticle() {
 
         createArticleAsync({ title: title, body: markdownText, tags: tags, cover_photo: coverPhotoUrl })
             .then(({ success, newArticle }) => {
-                setIsCreatingquestion(false);
+                // setIsCreatingquestion(false);
                 //go to that page.
                 progressBarRef.current.continuousStart()
 
-                router.push("/posts/questions/" + newArticle._id)
+                router.push("/posts/articles/" + newArticle._id)
 
             }).catch(err => {
                 progressBarRef.current.complete()
@@ -185,6 +185,10 @@ export default function CreateArticle() {
         </div>
     )
 
+    const [myProfileData, setMyProfileData] = useState(authContext.AuthRespObj)
+    useEffect(() => {
+        setMyProfileData(authContext.AuthRespObj)
+    }, [authContext])
 
 
     return (
@@ -216,7 +220,7 @@ export default function CreateArticle() {
                 </div>
                 <div className="cr-right">
                     <div className="cr-preview-2" ref={mdDivRef} id="mdbox" onClick={() => { handleFlash("mdbox") }}>
-                        <Cover coverPhotoUrl={coverPhotoUrl} article={markdownText} />
+                        <Cover coverPhotoUrl={coverPhotoUrl} article={markdownText} name={myProfileData.name} profile_pic={myProfileData.profile_pic} />
                         <MarkDown markdownText={title + "\n" + markdownText} disablePopups={true} />
                     </div>
                     <DraftPanle visible={true} onDraftSelectCallback={(draft) => { setCurrentDraft(draft) }} reload={reloadDraftPanel} />

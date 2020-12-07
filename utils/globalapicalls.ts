@@ -71,13 +71,20 @@ async function getMyQuestionsAsync(skip: Number, limit: Number): Promise<Array<a
     return questions
 }
 
+async function getMyArticleAsync(skip: Number, limit: Number): Promise<Array<any>> {
+    const token = Cookie.get('token')
+    if (!token) throw new Error("token not found")
+    const { articles } = await fetch(ENDPOINT + "/question/article/getall/mine/" + skip + "/" + limit, { method: 'POST', body: JSON.stringify({ token: token }), headers: { "Content-Type": "application/json" } }).then(resp => resp.json())
+    return articles
+}
+
 
 async function getNotificationsAsync(skip: Number, limit: Number): Promise<Array<any>> {
     const token = Cookie.get('token')
     if (!token) throw new Error("token not found")
 
-    const { notifications } = await fetch(ENDPOINT + "/notification/get", { method: 'POST', body: JSON.stringify({ token, skip, limit }), headers: { "Content-Type": "application/json" } }).then(resp => resp.json())
-    return
+    const { notifications } = await fetch(ENDPOINT + "/notification/get/" + skip + "/" + limit, { method: 'POST', body: JSON.stringify({ token, skip, limit }), headers: { "Content-Type": "application/json" } }).then(resp => resp.json())
+    return notifications
 }
 
 
@@ -86,4 +93,8 @@ async function searchRemoteAsync(query: string, skip: Number, limit: Number): Pr
     return questions
 }
 
-export { createQuestionAsync, getQuestionsAsync, searchRemoteAsync, createAnswerAsync, getMyQuestionsAsync, createArticleAsync, getArticleAsync }
+export {
+    createQuestionAsync, getQuestionsAsync, searchRemoteAsync,
+    createAnswerAsync, getMyQuestionsAsync, createArticleAsync, getArticleAsync, getMyArticleAsync,
+    getNotificationsAsync
+}

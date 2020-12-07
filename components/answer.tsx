@@ -141,6 +141,7 @@ export default function Answer() {
     const handlePostQuestion = () => {
         if (!authContext.isLogin) {
             signinAlertRef.current.style.display = 'flex'
+            document.documentElement.scrollTop = 0;
             return
         }
         if (markdownText.length < 10) {

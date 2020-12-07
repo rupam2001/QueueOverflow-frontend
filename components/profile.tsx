@@ -38,7 +38,7 @@ export default function Profile() {
     useEffect(() => {
         //for enter press search
         const fn = (e) => {
-            if (e.target.id !== 'myDropdown' && !e.target.classList.contains('dd-item')) {
+            if (e.target.id !== 'myDropdown' && !e.target.classList.contains('dd-item') && e.target.id !== 'ignore') {
                 // alert("i")
                 console.log(e.target)
                 ref.current.style.display = 'none'
@@ -100,6 +100,10 @@ export default function Profile() {
         // alert(theme)
     }, [])
 
+    const handleMyArticleClick = () => {
+        router.push('/myarticles')
+    }
+
 
     return (
         <div className="dropdown" >
@@ -119,22 +123,26 @@ export default function Profile() {
                         <>
                             <div className="dd-item" id="myDropdown" onClick={handleMyQuestionClick}>
                                 <i className={'fa fa-clipboard'} aria-hidden="true"></i>
-                                <span>My questions</span>
+                                <span id="ignore">My questions</span>
+                            </div>
+                            <div className="dd-item" id="myDropdown" onClick={handleMyArticleClick}>
+                                <i className={'fa fa-pencil-square-o'} aria-hidden="true"></i>
+                                <span id="ignore">My Articles</span>
                             </div>
                             <div className="dd-item" id="myDropdown" onClick={handleThemeClick}>
                                 <i className={"fa fa-paint-brush "} aria-hidden="true"></i>
-                                <span>Theme</span>
+                                <span id="ignore">Theme</span>
                             </div>
                             <div className="dd-item" id="myDropdown" onClick={handleLogout}>
                                 <i className="fa fa-sign-out" aria-hidden="true"></i>
-                                <span>Logout</span>
+                                <span id="ignore">Logout</span>
                             </div>
                         </>
                     ) : (
                             <div id="myDropdown">
                                 <div className="dd-item" id="myDropdown" onClick={handleThemeClick}>
                                     <i className={"fa fa-paint-brush"} aria-hidden="true"></i>
-                                    <span>Theme</span>
+                                    <span id="ignore">Theme</span>
                                 </div>
                                 <GoogleLogin
                                     clientId="432827620544-earre7sba34jptupkvjuinarabmts09e.apps.googleusercontent.com"
@@ -146,7 +154,11 @@ export default function Profile() {
                                     // redirectUri="http://localhost:3000/"
 
                                     render={renderProps => (
-                                        <div onClick={renderProps.onClick} ref={googleSigninButtonRef} className="dd-item" > With Google</div>
+                                        <div className="dd-item" id="myDropdown" onClick={renderProps.onClick} ref={googleSigninButtonRef}>
+                                            <i className="fa fa-google" aria-hidden="true"></i>
+                                            <span id="ignore"> With Google</span>
+                                        </div>
+
                                     )}
                                 />
                             </div>

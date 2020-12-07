@@ -36,7 +36,7 @@
     /* width: 40rem; */
   }
   .searchItemHead{
-    display: flex;
+    display: flex; 
     /* justify-content: flex-end; */
     font-size: xx-small;
     color: rgb(14, 131, 167);
@@ -57,6 +57,7 @@
       border-radius: 50%;
       margin-right: 1rem;
       cursor: pointer;
+      border: 2px solid rgba(128, 128, 128, 0.678);
   }
 
 
@@ -103,4 +104,9 @@
     transform: scale(0.9);
   }
 
-  
+  .notifIcon{
+    display: block;
+    width: 25px;
+    height: 25px;
+    background-image: url('../public/bell.svg');
+  }

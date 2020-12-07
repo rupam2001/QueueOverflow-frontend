@@ -50,7 +50,7 @@ export default function Searchbar() {
     }
     const [end, setEnd] = useState(false)
     useEffect(() => {
-        if (searchData.length === 0) return
+        if (searchData.length === 0 || range.skip == 0) return
         progressBarRef.current.staticStart()
         searchRemoteAsync(searchItem, range.skip, range.limit)
             .then(questions => {
@@ -82,13 +82,28 @@ export default function Searchbar() {
     }, [])
 
     const handleItemClick = (item) => {
-        router.push("/posts/questions/" + item._id)
+        switch (item.type) {
+            case 'question':
+                router.push("/posts/questions/" + item._id)
+
+                break;
+            case 'article':
+                router.push("/posts/articles/" + item._id)
+
+                break;
+
+            default:
+                break;
+        }
     }
+    useEffect(() => {
+        setRange({ skip: 0, limit: questionWindowSize })
+    }, [searchItem])
 
 
     return (
         <div className="dropdown">
-            <input className={style.searchInput} placeholder="search by title or tags or both" onKeyUp={handleSearch} onChange={(e) => { setSearchItem(e.target.value) }} />
+            <input className={style.searchInput} placeholder="search by title or tags or both" onKeyUp={handleSearch} onChange={(e) => { setSearchItem(e.target.value); }} />
             <div id="myDropdown" className={"dropdown-content " + style.searchDropDown} ref={searchResultDropDownRef}>
                 {
                     searchData.map(each => (

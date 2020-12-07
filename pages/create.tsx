@@ -201,8 +201,8 @@ export default function Create() {
                         />
                         <div className="cr-ed-btns">
                             <Button onclickCallBack={() => { handlePostQuestion() }} text="Post question" disable={isCreatingQuestion} />
-                            <Button onclickCallBack={() => { handleAddTags() }} text="add tags" disable={isCreatingQuestion} buttonStyle={{ backgroundColor: 'transparent', color: 'blue' }} />
-                            <Button onclickCallBack={() => { saveAsDraftLocaly() }} text="Save as draft in this device" buttonStyle={{ backgroundColor: 'transparent', color: 'red', marginLeft: '1rem', flex: 1, fontSize: 'small' }} />
+                            <Button onclickCallBack={() => { handleAddTags() }} text="add tags" disable={isCreatingQuestion} buttonStyle={{ backgroundColor: 'transparent', color: 'var(--third)' }} />
+                            <Button onclickCallBack={() => { saveAsDraftLocaly() }} text="Save as draft in this device" buttonStyle={{ backgroundColor: 'transparent', color: '#e63e32', marginLeft: '1rem', flex: 1, fontSize: 'small' }} />
                             <Button onclickCallBack={() => { handleExportHtml('mdbox') }} text="Export as html" buttonStyle={{ backgroundColor: 'transparent', color: 'green', fontSize: 'small', float: 'right' }} />
                         </div>
                     </div>

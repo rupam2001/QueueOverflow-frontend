@@ -17,6 +17,7 @@ body {
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
     background-color:var(--first);
   color: var(--third);
+  /* transition: all 0.5s; */
 }
 
 textarea, input{
@@ -74,8 +75,13 @@ a {
   width: 93%;
   max-height: 60vh;
   overflow-y: auto;
+  /* transition: all 0.8s; */
    /* right: 0; */
+   
 }
+
+
+
 .dropdown-content::-webkit-scrollbar{
   display: none;
 }
@@ -525,12 +531,12 @@ text{
   /* top: 0; */
 }
 
-.notificatinIcon{
+/* .notificatinIcon{
   background: url("../public/icons/bell.svg");
   width: 25px;
   height: 25px;
   display: inline-block;
-}
+} */
 .loading{
   display: flex;
   width: 100%;
@@ -626,7 +632,7 @@ text{
 .cover-pf-wrapper{
   z-index: 99;
   left: 5%;
-  top:87%;
+  top:92%;
   position: absolute;
   display: flex;
   /* background-color: #088abd; */
@@ -640,4 +646,6 @@ text{
 }
 .cover-photo-wrapper p{
     font-size: larger;
+    /* background-color: var(--first); */
+    font-weight: bold;
 }

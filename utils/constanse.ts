@@ -1,4 +1,4 @@
-const ENDPOINT = 'http://192.168.43.19:3300'
+const ENDPOINT = 'http://192.168.43.79:3300'
 
 const AuthRoute = '/auth/google' //post
 const AutoAuthRoute = '/auth/autoauth' //post
@@ -23,6 +23,8 @@ const randomSuffixForQuestions: Array<string> = [
 
 const questionWindowSize = 20;  //amount of question fetching at a time and subsequence loadmores
 
+const notificationWindowSize = 10
+
 const profilePicPlaceHolder = 'https://pbs.twimg.com/profile_images/1176237957851881472/CHOXLj9b_400x400.jpg'
 const coverPhotoPlacHolder = 'https://onlymevip.com/postuploads/profilepictures/default_cover.jpg'
 
@@ -30,5 +32,5 @@ export {
     ENDPOINT, AuthRoute, AutoAuthRoute, LogoutRoute,
     NotLoginImg, AutoAuthProgressImg, NoSearchResImg,
     NotFound404Img, TagsRoute, QuestionCreateRoute, QuestionGetRouteBySlug, QuestionGetRouteAll,
-    randomSuffixForQuestions, questionWindowSize, profilePicPlaceHolder, coverPhotoPlacHolder
+    randomSuffixForQuestions, questionWindowSize, profilePicPlaceHolder, coverPhotoPlacHolder, notificationWindowSize
 }
