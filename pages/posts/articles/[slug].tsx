@@ -53,6 +53,9 @@ export const getStaticPaths = () => {
 const Articles = (props) => {
 
     const router = useRouter()
+    useEffect(() => {
+        document.body.scrollTop = 0;
+    }, [])
 
 
     if (router.isFallback) {

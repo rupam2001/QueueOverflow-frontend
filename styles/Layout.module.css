@@ -110,3 +110,56 @@
     height: 25px;
     background-image: url('../public/bell.svg');
   }
+
+  .reactionContainer{
+    width: 100%;
+    background-color: var(--second);
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+  }
+  .reactionContainer i{
+    font-size: xx-large;
+    transition: all 0.1s;
+    cursor: pointer;
+  }
+  .eachReaction span{
+    font-size: large;
+    font-weight: 600;
+  }
+
+  .reactionContainer i:active{
+    transform: scale(0.80);
+  }
+  .eachReaction{
+    margin: 0rem 0.8rem 0rem 0.8rem;
+  }
+
+  .answerFooterContainer{
+    display: flex;
+
+  }
+  .markedUseful{
+    font-size: xx-large;
+    color: green;
+  }
+  .hasToMark {
+    font-size: xx-large;
+    
+  }
+  .deletebox{
+    display: flex;
+    padding: 1rem;
+    width: 100%;
+    justify-content: flex-end;
+  }
+  .deletebox i{
+    font-size: larger;
+    cursor: pointer;
+    transition: all 0.4s;
+  }
+  .deletebox i:hover{
+    color: red;
+    transform: scale(1.05);
+  }
+ 

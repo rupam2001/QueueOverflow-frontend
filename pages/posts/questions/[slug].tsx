@@ -2,10 +2,17 @@ import { ENDPOINT } from "../../../utils/constanse"
 import router, { useRouter } from 'next/router'
 import Layout from "../../../components/layout"
 import MarkDown from "../../../components/markdown"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import Loader from 'react-loader-spinner'
 import moment from 'moment'
 import Answer from "../../../components/answer"
+import Reactions from "../../../components/reactions"
+import { AuthContext } from "../../../context/authcontext"
+
+import styles from "../../../styles/Layout.module.css"
+import { checkWritePermission, deleteQuestion } from "../../../utils/globalapicalls"
+import UserPostSettings from "../../../components/userpostsettings"
+
 const getQuestion = async (slug: string) => {
     try {
         const res = await fetch(ENDPOINT + "/question/q/" + slug, { method: "GET", headers: { "Content-Type": "application/json" } }).then(resp => resp.json())
@@ -27,7 +34,7 @@ const getAnswers = async (slug: string) => {
 export const getStaticProps = async ({ params }) => {
     try {
 
-        const res = await getQuestion(params.slug)
+        const res = await getQuestion(params.slug) // will throw error if notfound  
         // console.log(res.question.author_id, ".>.")
         const anss = await getAnswers(params.slug)
 
@@ -59,8 +66,26 @@ export const getStaticPaths = () => {
 const Questions = (props) => {
 
     const router = useRouter()
+    const authContext = useContext(AuthContext)
+
+    const [isLogin, setIsLogin] = useState(authContext.isLogin)
 
 
+
+    const [q_id, set_q_id] = useState(null)
+
+
+    useEffect(() => {
+        setIsLogin(authContext.isLogin)
+    }, [authContext])
+
+
+
+    useEffect(() => {
+        const pathname = window.location.pathname
+        const qid = pathname.split("/")[pathname.split("/").length - 1]
+        set_q_id(qid)
+    }, [])
 
 
     if (router.isFallback) {
@@ -78,6 +103,12 @@ const Questions = (props) => {
             </Layout>
         )
     }
+
+
+
+
+
+
     return (
         <Layout>
             <div className="profile-pic">
@@ -89,6 +120,10 @@ const Questions = (props) => {
                 <MarkDown
                     markdownText={props.res.question.title + "\n" + props.res.question.body}
                 />
+                {/* <Reactions /> */}
+
+                <UserPostSettings fetchFunc={checkWritePermission} id={q_id} deleteFunc={deleteQuestion} />
+
                 <hr />
                 <div className="others-anss-box">
                     <div className="others-anss-header">
@@ -105,6 +140,8 @@ const Questions = (props) => {
                                     <p>{moment(eachAns.time).calendar()}</p>
                                 </div>
                                 <MarkDown markdownText={eachAns.body} />
+                                {/* <Reactions /> */}
+
                             </div>
                         ))
                     }

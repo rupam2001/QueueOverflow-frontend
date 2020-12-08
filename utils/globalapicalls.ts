@@ -93,8 +93,27 @@ async function searchRemoteAsync(query: string, skip: Number, limit: Number): Pr
     return questions
 }
 
+
+async function checkWritePermission(q_id: string): Promise<{ isAllowed: boolean }> {
+    const token = Cookie.get('token')
+    if (!token) throw new Error("token not found")
+
+    const { isAllowed } = await fetch(ENDPOINT + "/question/permission/write", { method: "POST", body: JSON.stringify({ token, q_id }), headers: { "Content-Type": "application/json" } }).then(resp => resp.json())
+
+    return { isAllowed }
+}
+
+async function deleteQuestion(q_id: string): Promise<{ success: boolean }> {
+    const token = Cookie.get('token')
+    if (!token) throw new Error("token not found")
+
+    const { success } = await fetch(ENDPOINT + "/question/delete", { method: "DELETE", body: JSON.stringify({ token, q_id }), headers: { "Content-Type": "application/json" } }).then(resp => resp.json())
+
+    return { success }
+}
+
 export {
     createQuestionAsync, getQuestionsAsync, searchRemoteAsync,
     createAnswerAsync, getMyQuestionsAsync, createArticleAsync, getArticleAsync, getMyArticleAsync,
-    getNotificationsAsync
+    getNotificationsAsync, checkWritePermission, deleteQuestion
 }
