@@ -2,11 +2,15 @@ import { ENDPOINT } from "../../../utils/constanse"
 import router, { useRouter } from 'next/router'
 import Layout from "../../../components/layout"
 import MarkDown from "../../../components/markdown"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import Loader from 'react-loader-spinner'
 import moment from 'moment'
 import Answer from "../../../components/answer"
 import Cover from "../../../components/cover"
+import UserPostSettings from "../../../components/userpostsettings"
+import { checkArticleWritePermission, checkWritePermission, deleteArticle, deleteQuestion, doReact, getReaction } from "../../../utils/globalapicalls"
+import Reactions from "../../../components/reactions"
+import { AuthContext } from "../../../context/authcontext"
 const getArticle = async (slug: string) => {
     try {
         const res = await fetch(ENDPOINT + "/question/article/" + slug, { method: "GET", headers: { "Content-Type": "application/json" } }).then(resp => resp.json())
@@ -53,8 +57,25 @@ export const getStaticPaths = () => {
 const Articles = (props) => {
 
     const router = useRouter()
+
+    const authContext = useContext(AuthContext)
+
+    const [isLogin, setIsLogin] = useState(authContext.isLogin)
+    const [article_id, setArticle_id] = useState(null)
+
+    useEffect(() => {
+        setIsLogin(authContext.isLogin)
+    }, [authContext])
+
     useEffect(() => {
         document.body.scrollTop = 0;
+    }, [])
+
+
+    useEffect(() => {
+        const pathname = window.location.pathname
+        const id = pathname.split("/")[pathname.split("/").length - 1]
+        setArticle_id(id)
     }, [])
 
 
@@ -88,6 +109,8 @@ const Articles = (props) => {
                 <MarkDown
                     markdownText={props.res.article.title + "\n" + props.res.article.body}
                 />
+                <Reactions fetchFunc={getReaction} reactFunc={doReact} isAuthed={isLogin} id={article_id} />
+                <UserPostSettings id={article_id} deleteFunc={deleteQuestion} fetchFunc={checkWritePermission} />
                 <hr />
             </div>
         </Layout>

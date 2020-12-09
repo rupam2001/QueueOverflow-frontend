@@ -50,6 +50,7 @@ code[style] span[style]{
 
 body::-webkit-scrollbar{
   display: none;
+  background-color: #088abd;
 }
 a {
   color: inherit;

@@ -35,7 +35,7 @@ export default function Notification() {
         if (ref.current.style.display === 'none') {
             //open 
             if (!authContext.isLogin) {
-                signinAlertRef.current.style.display = 'block'
+                signinAlertRef.current.style.display = 'flex'
                 return
             }
             if (notifications.length != 0 || end) {

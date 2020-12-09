@@ -82,7 +82,7 @@
     flex:1;
   }
   .middle{
-    flex:3;
+    flex:4;
     /* background-color: aqua; */
     overflow: hidden;
 
@@ -133,6 +133,12 @@
   }
   .eachReaction{
     margin: 0rem 0.8rem 0rem 0.8rem;
+    text-align: center;
+  }
+  .eachReaction span{
+    
+    font-weight: 100;
+    font-size: small;
   }
 
   .answerFooterContainer{
@@ -162,4 +168,27 @@
     color: red;
     transform: scale(1.05);
   }
- 
+.clap{
+    display: block;
+    width: 25px;
+    height: 25px;
+    background-image: url('../public/clapping.svg');
+    cursor: pointer;
+    transition: all 0.4s;
+}
+.clap:hover{
+  transform: scale(1.05);
+}
+.clap:active{
+  transform: scale(0.98);
+}
+
+.clapActive{
+  display: block;
+  width: 25px;
+  height: 25px;
+  background-image: url('../public/clapping_active.svg');
+  cursor: pointer;
+  transition: all 0.4s;
+
+}

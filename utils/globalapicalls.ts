@@ -112,8 +112,53 @@ async function deleteQuestion(q_id: string): Promise<{ success: boolean }> {
     return { success }
 }
 
+async function deleteArticle(article_id: string): Promise<{ success: boolean }> {
+    const token = Cookie.get('token')
+    if (!token) throw new Error("token not found")
+
+    const { success } = await fetch(ENDPOINT + "/question/article/delete", { method: "DELETE", body: JSON.stringify({ token, article_id }), headers: { "Content-Type": "application/json" } }).then(resp => resp.json())
+
+    return { success }
+}
+
+
+async function checkArticleWritePermission(article_id: string): Promise<{ isAllowed: boolean }> {
+    const token = Cookie.get('token')
+    if (!token) throw new Error("token not found")
+
+    const { isAllowed } = await fetch(ENDPOINT + "/reaction/article/permission/write", { method: "POST", body: JSON.stringify({ token, article_id }), headers: { "Content-Type": "application/json" } }).then(resp => resp.json())
+
+    return { isAllowed }
+}
+
+async function getReaction(id: string) {
+    const token = Cookie.get('token')
+    if (!token) {
+        //for user who is not authenticated
+        // throw new Error("token not found")
+        const { nums } = await fetch(ENDPOINT + "/reaction/article/get/" + id, { method: "GET", headers: { "Content-Type": "application/json" } }).then(resp => resp.json())
+        return { nums, myreaction: null }
+    }
+
+    const { nums, myreaction } = await fetch(ENDPOINT + "/reaction/article/get", { method: "POST", body: JSON.stringify({ token, id }), headers: { "Content-Type": "application/json" } }).then(resp => resp.json())
+    return { nums, myreaction }
+}
+
+async function doReact(id: string): Promise<any> {
+    const token = Cookie.get('token')
+    if (!token) {
+        //for user who is not authenticated
+        throw new Error("token not found")
+    }
+
+    const { } = await fetch(ENDPOINT + "/reaction/article/clap", { method: "POST", body: JSON.stringify({ token, id }), headers: { "Content-Type": "application/json" } }).then(resp => resp.json())
+    return {}
+}
+
+
+
 export {
     createQuestionAsync, getQuestionsAsync, searchRemoteAsync,
     createAnswerAsync, getMyQuestionsAsync, createArticleAsync, getArticleAsync, getMyArticleAsync,
-    getNotificationsAsync, checkWritePermission, deleteQuestion
+    getNotificationsAsync, checkWritePermission, deleteQuestion, getReaction, doReact
 }
