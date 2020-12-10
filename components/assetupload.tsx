@@ -96,9 +96,9 @@ export default function AssetsUplode(props) {
                             <img src={each.url} alt={each.name} />
                             <span>{each.name.slice(0, 16) + "..."}</span>
                             <div className={styles.assetBtngrp}>
-                                <Button onclickCallBack={() => { handleClickAsset(each) }} text="get url" buttonStyle={{ backgroundColor: 'var(--first)', width: 'fit-content', fontSize: 'x-small', marginTop: '0.2rem', marginRight: '0.2rem' }} />
+                                <Button onclickCallBack={() => { handleClickAsset(each) }} text="get url" buttonStyle={{ backgroundColor: 'var(--first)', width: 'fit-content', fontSize: 'x-small', marginTop: '0.2rem', marginRight: '0.2rem', color: 'dodgerblue' }} />
 
-                                <Button onclickCallBack={() => { handleDelete(each) }} text="delete" buttonStyle={{ backgroundColor: 'var(--first)', width: 'fit-content', fontSize: 'x-small', marginTop: '0.2rem' }} />
+                                <Button onclickCallBack={() => { handleDelete(each) }} text="delete" buttonStyle={{ backgroundColor: 'var(--first)', width: 'fit-content', fontSize: 'x-small', marginTop: '0.2rem', color: 'red' }} />
                             </div>
                             <input type="text" id={each._id} value={each.url} hidden />
                         </div>

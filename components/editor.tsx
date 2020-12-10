@@ -164,7 +164,7 @@ const Editor = (props: propsType) => {
                 <input placeholder="Paste the url to image here" ref={inputLinkImgRef} />
                 <div className="ed-btns">
                     {props.openAssetGalleryFunc && <div>
-                        <Button text="Assets" onclickCallBack={props.openAssetGalleryFunc} buttonStyle={{ backgroundColor: 'transparent' }} />
+                        <Button text="Assets" onclickCallBack={props.openAssetGalleryFunc} buttonStyle={{ backgroundColor: 'transparent', color: 'dodgerblue' }} />
                     </div>
                     }
                     <div>
