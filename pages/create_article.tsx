@@ -18,6 +18,7 @@ import Tags from '../components/tags'
 import { createArticleAsync, createQuestionAsync } from '../utils/globalapicalls'
 import { setCommentRange } from 'typescript'
 import Cover from '../components/cover'
+import AssetsUplode from '../components/assetupload'
 
 export default function CreateArticle() {
     const authContext = useContext(AuthContext)
@@ -190,6 +191,18 @@ export default function CreateArticle() {
         setMyProfileData(authContext.AuthRespObj)
     }, [authContext])
 
+    const [showAssetGallery, setShowAssetGallery] = useState(false)
+    const handleAssetGalleryOpen = () => {
+        if (!authContext.isLogin) {
+            signinAlertRef.current.style.display = 'flex'
+            return
+        }
+        setShowAssetGallery(true)
+        setTimeout(() => {
+
+            window.scrollTo(0, document.body.scrollHeight,);
+        }, 1000);
+    }
 
     return (
         <div>
@@ -199,7 +212,7 @@ export default function CreateArticle() {
                     <div className="cr-left-editor">
                         {currentDraft && DraftInfo()}
                         <div className="cr-title" style={{ zoom: 0.8 }}>
-                            <input placeholder="Cover photo url" onChange={(e) => { setCOverPhotoUrl(e.target.value); }} defaultValue={coverPhotoUrl} />
+                            <input placeholder="Cover photo url (you can use asset gallery)" onChange={(e) => { setCOverPhotoUrl(e.target.value); }} defaultValue={coverPhotoUrl} />
                             <input placeholder="Title" onChange={(e) => { setTitle("## " + e.target.value); }} defaultValue={title.substring(2)} />
                         </div>
                         <Editor
@@ -209,6 +222,7 @@ export default function CreateArticle() {
                             textAreaPlaceholder={"Article body"}
                             text={markdownText}
                             textAreaStyle={{ fontSize: 'medium' }}
+                            openAssetGalleryFunc={handleAssetGalleryOpen}
                         />
                         <div className="cr-ed-btns">
                             <Button onclickCallBack={() => { handlePostQuestion() }} text="Post Article" disable={isCreatingQuestion} />
@@ -226,6 +240,9 @@ export default function CreateArticle() {
                     <DraftPanle visible={true} onDraftSelectCallback={(draft) => { setCurrentDraft(draft) }} reload={reloadDraftPanel} />
                 </div>
             </div>
+            {showAssetGallery && <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '5vh' }}>
+                <AssetsUplode isLogin={authContext.isLogin} />
+            </div>}
             {ModalDraft({ title: "Name of the draft" })}
             {ModalTags()}
         </div>
