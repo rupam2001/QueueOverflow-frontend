@@ -5,7 +5,7 @@ import { signinAlertRef } from './refs'
 interface propType {
     fetchFunc(id: string): Promise<{ nums: Number, myreaction: boolean }>,  //fetch my reaction and number of reactions
     reactFunc(id: string): Promise<any>,
-    num_clapps: Number,
+    num_clapps: any,
     isAuthed: boolean,
     id: string
 
@@ -13,7 +13,7 @@ interface propType {
 
 export default function Reactions(props: propType) {
 
-    const [numReaction, setNumReaction] = useState<Number>(props.num_clapps)
+    const [numReaction, setNumReaction] = useState<any>(props.num_clapps)
 
     const [myReaction, setMyReaction] = useState(false)
 
