@@ -9,7 +9,8 @@ interface propsType {
     containerStyle?: CSS.Properties,
     textAreaPlaceholder?: string,
     text?: string,
-    textAreaStyle?: CSS.Properties
+    textAreaStyle?: CSS.Properties,
+    openAssetGalleryFunc?: Function
 }
 
 
@@ -162,6 +163,10 @@ const Editor = (props: propsType) => {
                 <input placeholder="Give a title" ref={inputTitleImgRef} />
                 <input placeholder="Paste the url to image here" ref={inputLinkImgRef} />
                 <div className="ed-btns">
+                    {props.openAssetGalleryFunc && <div>
+                        <Button text="Assets" onclickCallBack={props.openAssetGalleryFunc} buttonStyle={{ backgroundColor: 'transparent' }} />
+                    </div>
+                    }
                     <div>
                         <Button text="Add" onclickCallBack={handleModalImgAdd} />
                     </div>

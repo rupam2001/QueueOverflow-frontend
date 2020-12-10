@@ -16,6 +16,7 @@ import { AuthContext } from '../context/authcontext'
 import { progressBarRef, signinAlertRef } from '../components/refs'
 import Tags from '../components/tags'
 import { createQuestionAsync } from '../utils/globalapicalls'
+import AssetsUplode from '../components/assetupload'
 
 export default function Create() {
     const authContext = useContext(AuthContext)
@@ -181,6 +182,16 @@ export default function Create() {
         </div>
     )
 
+    const [showAssetGallery, setShowAssetGallery] = useState(false)
+    const handleAssetGalleryOpen = () => {
+        if (!authContext.isLogin) {
+            signinAlertRef.current.style.display = 'flex'
+            return
+        }
+        setShowAssetGallery(true)
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
     return (
         <div>
             <NavBar />
@@ -198,6 +209,7 @@ export default function Create() {
                             textAreaPlaceholder={"Type your question body here"}
                             text={markdownText}
                             textAreaStyle={{ fontSize: 'medium' }}
+                            openAssetGalleryFunc={handleAssetGalleryOpen}
                         />
                         <div className="cr-ed-btns">
                             <Button onclickCallBack={() => { handlePostQuestion() }} text="Post question" disable={isCreatingQuestion} />
@@ -214,6 +226,9 @@ export default function Create() {
                     <DraftPanle visible={true} onDraftSelectCallback={(draft) => { setCurrentDraft(draft) }} reload={reloadDraftPanel} />
                 </div>
             </div>
+            {showAssetGallery && <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '5vh' }}>
+                <AssetsUplode isLogin={authContext.isLogin} />
+            </div>}
             {ModalDraft({ title: "Name of the draft" })}
             {ModalTags()}
         </div>
