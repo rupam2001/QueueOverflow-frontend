@@ -9,6 +9,7 @@ import { getQuestionsAsync } from '../utils/globalapicalls'
 import moment from 'moment'
 import Loader from 'react-loader-spinner'
 import { questionWindowSize, randomSuffixForQuestions } from '../utils/constanse'
+import { progressBarRef } from './refs'
 
 // import { Button } from '../components/stateless/stateless'
 interface propTypes {
@@ -28,6 +29,7 @@ export default function Home(props: propTypes) {
     const [range, setRange] = useState({ skip: 0, limit: questionWindowSize })
 
     const handleAskQuestion = () => {
+        progressBarRef.current.continuousStart()
         router.push("/create")
     }
 
@@ -56,6 +58,7 @@ export default function Home(props: propTypes) {
     }, [range])
 
     const handleQuestionCLicked = (slug: string) => {
+        progressBarRef.current.continuousStart()
         router.push("/posts/questions/" + slug)
     }
     return (

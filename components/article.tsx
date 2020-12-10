@@ -10,6 +10,7 @@ import Loader from 'react-loader-spinner'
 import { coverPhotoPlacHolder, questionWindowSize, randomSuffixForQuestions } from '../utils/constanse'
 import { AuthContext } from '../context/authcontext'
 import { calcArticleReadTime } from '../utils/helpers'
+import { progressBarRef } from './refs'
 
 // import { Button } from '../components/stateless/stateless'
 interface propTypes {
@@ -31,6 +32,7 @@ export default function Article(props: propTypes) {
     const [range, setRange] = useState({ skip: 0, limit: questionWindowSize })
 
     const handleWriteArticle = () => {
+        progressBarRef.current.continuousStart()
         router.push("/create_article")
     }
 
@@ -59,6 +61,7 @@ export default function Article(props: propTypes) {
     }, [range])
 
     const handleArticleClicked = (slug: string) => {
+        progressBarRef.current.continuousStart()
         router.push("/posts/articles/" + slug)
     }
     return (
