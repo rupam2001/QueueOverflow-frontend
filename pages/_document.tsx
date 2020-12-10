@@ -5,7 +5,7 @@ export default class CustomDocument extends Document {
         return (
             <Html>
                 <Head>
-                    {/* <title>QueueOverflow</title> */}
+                    <title>Q-Overflow</title>
                 </Head>
                 <body>
                     <Main />

@@ -24,11 +24,11 @@ export default function SideMenu() {
                             <span>Tags</span>
                         </div>
                     </Link> */}
-                    <Link href="/peoples">
+                    {/* <Link href="/peoples">
                         <div className={styels.route + (router.pathname == '/peoples' ? " " + styels.active : "")}>
                             <span>Peoples</span>
                         </div>
-                    </Link>
+                    </Link> */}
                     {/* <Link href="/create">
                         <div className={styels.route + (router.pathname == '/create' ? " " + styels.active : "") + " " + styels.compose}>
                             <span>Compose <big>+</big></span>
