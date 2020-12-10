@@ -1,7 +1,7 @@
 import { useContext, useEffect, useRef, useState } from 'react'
 import { AuthContext } from '../context/authcontext'
 import style from '../styles/Layout.module.css'
-import { AutoAuthProgressImg, ENDPOINT, NotLoginImg } from '../utils/constanse'
+import { AutoAuthProgressImg, NotLoginImg } from '../utils/constanse'
 import { Button } from './stateless/stateless'
 import GoogleLogin from 'react-google-login';
 import { ToggleTheme } from '../utils/helpers'
@@ -150,7 +150,7 @@ export default function Profile() {
                                     onSuccess={responseSuccessGoogle}
                                     onFailure={responseErrorGoogle}
                                     cookiePolicy={'single_host_origin'}
-                                    redirectUri={ENDPOINT + "/"}
+                                    redirectUri="https://q-overflow.vercel.app/"
                                     // redirectUri="http://localhost:3000/"
 
                                     render={renderProps => (
