@@ -1,14 +1,13 @@
 import { ENDPOINT } from "../../../utils/constanse"
-import router, { useRouter } from 'next/router'
+import { useRouter } from 'next/router'
 import Layout from "../../../components/layout"
 import MarkDown from "../../../components/markdown"
 import { useContext, useEffect, useState } from "react"
 import Loader from 'react-loader-spinner'
 import moment from 'moment'
-import Answer from "../../../components/answer"
 import Cover from "../../../components/cover"
 import UserPostSettings from "../../../components/userpostsettings"
-import { checkArticleWritePermission, checkWritePermission, deleteArticle, deleteQuestion, doReact, getReaction } from "../../../utils/globalapicalls"
+import { checkWritePermission, deleteQuestion, doReact, getReaction } from "../../../utils/globalapicalls"
 import Reactions from "../../../components/reactions"
 import { AuthContext } from "../../../context/authcontext"
 const getArticle = async (slug: string) => {
