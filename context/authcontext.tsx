@@ -50,7 +50,7 @@ export default function AuthContextProvider(props) {
             return { success, profile_pic, name }
         } catch (e) {
             setIsLogin(false)
-            return { success: false, profile_pic: '>>', name }
+            return { success: false, profile_pic: '>>', name: '' }
         }
     }
 
@@ -67,7 +67,7 @@ export default function AuthContextProvider(props) {
             return { success, profile_pic, name }
         } catch (e) {
             // server responded with error
-            return { success: false, profile_pic: '>>', name }
+            return { success: false, profile_pic: '>>', name: '' }
         }
     }
     const LogoutAsync = async (): Promise<boolean> => {
