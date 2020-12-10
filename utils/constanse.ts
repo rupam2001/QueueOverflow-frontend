@@ -1,4 +1,4 @@
-const ENDPOINT = 'http://192.168.43.79:3300'
+const ENDPOINT = 'https://pacific-harbor-79698.herokuapp.com'
 
 const AuthRoute = '/auth/google' //post
 const AutoAuthRoute = '/auth/autoauth' //post
