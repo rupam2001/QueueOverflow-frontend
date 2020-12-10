@@ -37,7 +37,7 @@ export default function AuthContextProvider(props) {
     }
 
 
-    const AutoAuthFromTokenAsync = async (): Promise<AuthResp> => {
+    const AutoAuthFromTokenAsync = async (): Promise<any> => {
         try {
             //get the token from the cookie
             const token = getCookieToken()
