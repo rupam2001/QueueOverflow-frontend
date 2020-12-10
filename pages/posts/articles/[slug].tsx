@@ -108,7 +108,7 @@ const Articles = (props) => {
                 <MarkDown
                     markdownText={props.res.article.title + "\n" + props.res.article.body}
                 />
-                <Reactions fetchFunc={getReaction} reactFunc={doReact} isAuthed={isLogin} id={article_id} />
+                <Reactions fetchFunc={getReaction} reactFunc={doReact} isAuthed={isLogin} id={article_id} num_clapps={null} />
                 <UserPostSettings id={article_id} deleteFunc={deleteQuestion} fetchFunc={checkWritePermission} />
                 <hr />
             </div>
