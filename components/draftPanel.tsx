@@ -58,6 +58,12 @@ const DraftPanle = (props: propType) => {
             dp.style.setProperty("height", "40vh");
         }
     }
+    const handleDraftClick = (e, each) => {
+        // if ((<HTMLDivElement>e.target).id === 'del') return; 
+        if (e.target.id == 'del') return;
+
+        props.onDraftSelectCallback(each)
+    }
 
     return (
         <div className="cr-draft-panel" ref={panelRef} id="dpanel">
@@ -68,7 +74,7 @@ const DraftPanle = (props: propType) => {
             </div>
             <div className="cr-draft-panel-body" ref={panelBodyRef}>
                 {drafts.map((each) => (
-                    <div className="cr-draft-each cr-draft-slider-delete" onClick={(e) => { if (e.target.id === 'del') return; props.onDraftSelectCallback(each) }}>
+                    <div className="cr-draft-each cr-draft-slider-delete" onClick={(e) => { handleDraftClick(e, each) }}>
                         <p >
                             {each.name.slice(0, 20)}
                         </p>
