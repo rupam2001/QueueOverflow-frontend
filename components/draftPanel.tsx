@@ -97,6 +97,9 @@ const getDrafts = (args: { name?: string, callback?: Function }): Array<draftTyp
     let drafts: Array<draftType> = JSON.parse(localStorage.getItem("drafts"))
     if (!args.name && !args.callback) return drafts ? drafts : []
     let filterdDrafts: Array<draftType>
+    if (!drafts) {
+        return []
+    }
     if (args.name) {
         filterdDrafts = drafts.filter((d) => d.name == args.name)
     }
