@@ -87,7 +87,7 @@ export default function AssetsUplode(props) {
     return (
         <div className={styles.assetMain}>
             <div className={styles.assetHeading}>
-                <span>Your Asstes gallery</span>
+                <span>Your Assets gallery</span>
             </div>
             <div className={styles.assetContainer} ref={assetContRef}>
                 {

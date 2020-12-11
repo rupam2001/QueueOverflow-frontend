@@ -200,7 +200,7 @@ export default function CreateArticle() {
         setShowAssetGallery(true)
         setTimeout(() => {
 
-            window.scrollTo(0, document.body.scrollHeight,);
+            window.scrollTo(0, document.body.scrollHeight);
         }, 1000);
     }
 

@@ -189,7 +189,10 @@ export default function Create() {
             return
         }
         setShowAssetGallery(true)
-        window.scrollTo(0, document.body.scrollHeight);
+        setTimeout(() => {
+
+            window.scrollTo(0, document.body.scrollHeight);
+        }, 1000);
     }
 
     return (
