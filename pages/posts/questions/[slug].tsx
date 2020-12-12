@@ -40,7 +40,7 @@ export const getStaticProps = async ({ params }) => {
 
         return {
             props: { res, anss },
-            revalidate: 60 * 60 * 3  //3mins
+            revalidate: 60 * 3  //3mins
         }
     } catch (e) {
         // throw e
