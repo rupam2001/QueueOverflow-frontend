@@ -27,7 +27,7 @@ const questionWindowSize = 20;  //amount of question fetching at a time and subs
 const notificationWindowSize = 10
 
 const profilePicPlaceHolder = 'https://pbs.twimg.com/profile_images/1176237957851881472/CHOXLj9b_400x400.jpg'
-const coverPhotoPlacHolder = 'https://onlymevip.com/postuploads/profilepictures/default_cover.jpg'
+const coverPhotoPlacHolder = 'https://newevolutiondesigns.com/images/freebies/texture-facebook-cover-preview-44.jpg'
 
 export {
     ENDPOINT, AuthRoute, AutoAuthRoute, LogoutRoute,
