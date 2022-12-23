@@ -1,5 +1,5 @@
 // const ENDPOINT = 'https://pacific-harbor-79698.herokuapp.com'
-const ENDPOINT = "http://localhost:5000";
+const ENDPOINT = "http://54.172.150.163:5000";
 
 const AuthRoute = "/auth/google"; //post
 const AutoAuthRoute = "/auth/autoauth"; //post
