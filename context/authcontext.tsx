@@ -16,6 +16,8 @@ interface AuthContextTypes {
   isLogin: boolean;
   AutoAuthFromTokenAsync(): Promise<AuthResp>;
   AuthenticateAsync(tokenId: string): Promise<AuthResp>;
+  AuthenticateAsync2(email: string, password: string): Promise<AuthResp>;
+
   AuthRespObj: AuthResp;
   LogoutAsync(): Promise<boolean>;
   getCookieToken(): string;
